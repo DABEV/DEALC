@@ -9,6 +9,9 @@ class FirebaseLoginProvider {
         private val TAG = FirebaseLoginProvider::class.java.toString()
         private val AUTH = FirebaseAuth.getInstance()
 
+        /**
+         * Realiza la autenticación con correo y contraseña
+         * */
         suspend fun signInWithEmail(email: String, password: String): Boolean? {
             val response = CompletableDeferred<Boolean?>()
 

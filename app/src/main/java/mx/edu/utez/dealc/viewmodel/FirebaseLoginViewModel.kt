@@ -8,6 +8,9 @@ class FirebaseLoginViewModel: ViewModel() {
     val result: MutableLiveData<Boolean> = MutableLiveData()
     val error: MutableLiveData<Boolean> = MutableLiveData()
 
+    /**
+     * Realiza la autenticación con correo y contraseña
+     * */
     suspend fun signInWithEmail(email: String, password: String) {
         val response = FirebaseLoginProvider.signInWithEmail(email, password)
 
