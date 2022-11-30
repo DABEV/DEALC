@@ -6,7 +6,7 @@ import mx.edu.utez.dealc.model.ServiceStatus
 
 class ServiceStatusProvider : FirebaseProvider() {
     companion object {
-        private val TAG = ServiceStatus::class.java.toString()
+        private val TAG = ServiceStatusProvider::class.java.toString()
         val COLLECTION_NAME = "ServiceStatus";
 
         /**
@@ -27,7 +27,7 @@ class ServiceStatusProvider : FirebaseProvider() {
                         }
                     }
             } catch (e: Exception) {
-                Log.d(TAG, e.message!!)
+                Log.e(TAG, e.message!!)
                 response.complete(listOf())
             }
 

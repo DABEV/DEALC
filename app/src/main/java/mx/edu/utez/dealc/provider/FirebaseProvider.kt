@@ -45,5 +45,12 @@ open class FirebaseProvider {
         fun getDocumentRef(collection: String, documentId: String): DocumentReference {
             return getCollectionRef(collection).document(documentId)
         }
+
+        /**
+         * Registra un nuevo record en la colección especificada
+         * */
+        fun saveDataFire(collection: String, data: Map<String, Any?>): Task<DocumentReference> {
+            return getCollectionRef(collection).add(data)
+        }
     }
 }

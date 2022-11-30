@@ -6,7 +6,7 @@ import mx.edu.utez.dealc.model.CategoryService
 
 class CategoryServiceProvider : FirebaseProvider() {
     companion object {
-        private val TAG = CategoryService::class.java.toString()
+        private val TAG = CategoryServiceProvider::class.java.toString()
         val COLLECTION_NAME = "CategoryService";
 
         /**
@@ -27,7 +27,7 @@ class CategoryServiceProvider : FirebaseProvider() {
                         }
                     }
             } catch (e: Exception) {
-                Log.d(TAG, e.message!!)
+                Log.e(TAG, e.message!!)
                 response.complete(listOf())
             }
 

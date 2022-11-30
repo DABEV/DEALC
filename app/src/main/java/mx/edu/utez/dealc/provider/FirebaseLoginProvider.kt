@@ -21,7 +21,7 @@ class FirebaseLoginProvider {
                         response.complete(it.isSuccessful)
                     }
             } catch (e: Exception) {
-                Log.d(TAG, e.message!!)
+                Log.e(TAG, e.message!!)
                 response.complete(false)
             }
 
