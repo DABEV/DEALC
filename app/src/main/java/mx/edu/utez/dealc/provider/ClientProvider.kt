@@ -55,5 +55,24 @@ class ClientProvider : FirebaseProvider() {
 
             return response.await()
         }
+
+        /**
+         * Actualiza la información de un cliente
+         * */
+        suspend fun updateClient(client: Client): Boolean? {
+            val response = CompletableDeferred<Boolean?>()
+
+            try {
+                updateDataFire(COLLECTION_NAME, client.id!!, client.toMap())
+                    .addOnCompleteListener {
+                        response.complete(it.isSuccessful)
+                    }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message!!)
+                response.complete(false)
+            }
+
+            return response.await()
+        }
     }
 }

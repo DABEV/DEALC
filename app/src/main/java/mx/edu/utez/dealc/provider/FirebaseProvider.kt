@@ -52,5 +52,12 @@ open class FirebaseProvider {
         fun saveDataFire(collection: String, data: Map<String, Any?>): Task<DocumentReference> {
             return getCollectionRef(collection).add(data)
         }
+
+        /**
+         * Actualiza un documento dado su id
+         * */
+        fun updateDataFire(collection: String, documentId: String, data: Map<String, Any?>): Task<Void> {
+            return getDocumentRef(collection, documentId).set(data)
+        }
     }
 }

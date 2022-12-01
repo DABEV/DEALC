@@ -7,16 +7,18 @@ import mx.edu.utez.dealc.provider.ClientProvider
 
 class ClientViewModel : ViewModel() {
     /**
-     * Each position on map represent:
-     * methodName to pair of results
+     * Cada posición del mapa representa
+     * String = nombre del método
+     * Pair<> = Las posibles respuestas de cada método (correct y fallido)
      *
-     * The pair represents:
-     * first = result
-     * second = error
+     * Dentro del Pair, cada posición representa
+     * first = correcto
+     * second = fallido
      * */
     val responsesToSend : Map<String, Pair<MutableLiveData<Any>, MutableLiveData<Any>>> = mapOf(
-        "getInfoByEmail" to Pair(MutableLiveData(), MutableLiveData()), // mx.edu.utez.dealc.model.Client
-        "addClient" to Pair(MutableLiveData(), MutableLiveData()),     // Boolean
+        "getInfoByEmail" to Pair(MutableLiveData(), MutableLiveData()),     // mx.edu.utez.dealc.model.Client
+        "addClient" to Pair(MutableLiveData(), MutableLiveData()),          // Boolean
+        "updateClient" to Pair(MutableLiveData(), MutableLiveData()),       // Boolean
     )
 
     /**
@@ -42,6 +44,19 @@ class ClientViewModel : ViewModel() {
             responsesToSend["addClient"]?.first?.postValue(response!!)
         } else {
             responsesToSend["addClient"]?.second?.postValue(false)
+        }
+    }
+
+    /**
+     * Actualiza la información del cliente
+     * */
+    suspend fun updateClient(client: Client) {
+        val response = ClientProvider.updateClient(client)
+
+        if (response!!) {
+            responsesToSend["updateClient"]?.first?.postValue(response!!)
+        } else {
+            responsesToSend["updateClient"]?.second?.postValue(false)
         }
     }
 }
