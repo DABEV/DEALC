@@ -27,5 +27,22 @@ class FirebaseLoginProvider {
 
             return response.await()
         }
+
+        suspend fun createUserWithEmailAndPassword(email: String, password: String): Boolean?{
+            val response = CompletableDeferred<Boolean?>()
+
+            try {
+                AUTH.createUserWithEmailAndPassword(email,password)
+                    .addOnCompleteListener {
+                        response.complete(it.isSuccessful)
+                    }
+
+            }catch (e: Exception){
+                Log.e(TAG, e.message!!)
+                response.complete(false)
+            }
+
+            return response.await()
+        }
     }
 }
