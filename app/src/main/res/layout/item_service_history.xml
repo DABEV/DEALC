@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="5dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+
+        <!-- Información del servicio -->
+        <LinearLayout
+            android:id="@+id/linearLayoutInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_weight="2"
+            >
+
+            <TextView
+                android:id="@+id/textViewShortDescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                tools:text="Información del servicio"
+                />
+
+        </LinearLayout>
+
+        <!-- Acciones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="3"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/imageViewChat"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/ic_chat"
+                />
+
+            <ImageView
+                android:id="@+id/imageViewAccept"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/ic_check"
+                />
+
+            <ImageView
+                android:id="@+id/imageViewReject"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginHorizontal="5dp"
+                android:background="@drawable/ic_cancel"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
