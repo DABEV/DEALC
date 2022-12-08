@@ -1,6 +1,5 @@
 package mx.edu.utez.dealc.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import mx.edu.utez.dealc.databinding.ActivityMainBinding
@@ -13,9 +12,5 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
-        binding.registro.setOnClickListener {
-            startActivity(Intent(this, UserRegisterActivity::class.java))
-        }
     }
 }
