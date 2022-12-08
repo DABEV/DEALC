@@ -37,19 +37,40 @@ class UserRegisterActivity : AppCompatActivity() {
                  && !phone.isNullOrEmpty() && !password.isNullOrEmpty()){
                  viewModel.addClient(Client(null,name, lastName, email,phone))
 
-                 viewModelFirebase.createUserWithEmailAndPassword(
-                     binding.editTextEmail.text.toString(), binding.editTextPassword.text.toString()
-                 )
+
              }else{
                  Toast.makeText(applicationContext, "Ocurrio un error revise los datos", Toast.LENGTH_SHORT).show()
              }
            }
-
+                createUserWithEmailAndPassword(email, password)
         }
 
+        initObservers()
+
+    }
+
+    fun createUserWithEmailAndPassword(email: String, password: String){
+        lifecycleScope.launch {
+            viewModelFirebase.createUserWithEmailAndPassword(email, password)
+        }
     }
 
 
     fun initObservers(){
+        viewModel.responsesToSend["addClient"]?.first?.observe(this){
+            Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.responsesToSend["addClient"]?.second?.observe(this){
+            Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModelFirebase.result.observe(this){
+            Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
+        }
+
+        viewModelFirebase.error.observe(this){
+            Toast.makeText(applicationContext, "", Toast.LENGTH_SHORT).show()
+        }
     }
 }

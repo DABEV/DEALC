@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context=".view.MainActivity">
 
-    <Button
-        android:id="@+id/registro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="registro de usuario"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
 
 </LinearLayout>
