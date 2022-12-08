@@ -26,10 +26,10 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
         binding.recyclerViewServiceHistory.adapter = adapter
 
         val list: List<ServiceProviderRequest> = listOf(
-            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente", mutableListOf(), mutableListOf()),
-            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente", mutableListOf(), mutableListOf()),
-            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente", mutableListOf(), mutableListOf()),
-            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente", mutableListOf(), mutableListOf()),
+            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente"),
+            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente"),
+            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente"),
+            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente"),
         )
 
         adapter.submitList(list)

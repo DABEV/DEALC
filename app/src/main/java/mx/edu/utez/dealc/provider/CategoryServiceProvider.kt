@@ -7,7 +7,7 @@ import mx.edu.utez.dealc.model.CategoryService
 class CategoryServiceProvider : FirebaseProvider() {
     companion object {
         private val TAG = CategoryServiceProvider::class.java.toString()
-        val COLLECTION_NAME = "CategoryService";
+        val COLLECTION_NAME = "CategoryService"
 
         /**
          * Obten el listado de las categorías de servicio

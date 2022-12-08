@@ -8,9 +8,7 @@ data class ServiceProviderRequest (
     var categoryServiceId: String,
     var serviceStatusId: String,
     var stars: Int = 0,
-    var serviceProviderComments: String,
-    var chat: MutableList<Message> = mutableListOf(),
-    var pathProvider: MutableList<Location> = mutableListOf(),
+    var serviceProviderComments: String
 ) : FirebaseObject(id) {
     companion object {
         /**
@@ -24,8 +22,6 @@ data class ServiceProviderRequest (
                 element["serviceStatusId"].toString(),
                 element["stars"] as Int,
                 element["serviceProviderComments"].toString(),
-                element["chat"] as MutableList<Message>,
-                element["pathProvider"] as MutableList<Location>,
             )
         }
     }
@@ -37,8 +33,6 @@ data class ServiceProviderRequest (
             "serviceStatusId" to this.serviceStatusId,
             "stars" to this.stars,
             "serviceProviderComments" to this.serviceProviderComments,
-            "chat" to this.chat,
-            "pathProvider" to this.pathProvider,
         )
     }
 }

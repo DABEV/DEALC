@@ -7,7 +7,7 @@ import mx.edu.utez.dealc.model.ServiceStatus
 class ServiceStatusProvider : FirebaseProvider() {
     companion object {
         private val TAG = ServiceStatusProvider::class.java.toString()
-        val COLLECTION_NAME = "ServiceStatus";
+        val COLLECTION_NAME = "ServiceStatus"
 
         /**
          * Obten el listado de las estatus del servicio

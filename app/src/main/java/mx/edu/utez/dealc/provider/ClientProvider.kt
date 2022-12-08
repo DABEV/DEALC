@@ -7,7 +7,7 @@ import mx.edu.utez.dealc.model.Client
 class ClientProvider : FirebaseProvider() {
     companion object {
         private val TAG = ClientProvider::class.java.toString()
-        val COLLECTION_NAME = "Client";
+        val COLLECTION_NAME = "Client"
 
         /**
          * Obtiene su información personal por el correo electrónico

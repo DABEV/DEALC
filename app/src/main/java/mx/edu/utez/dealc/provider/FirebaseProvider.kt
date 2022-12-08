@@ -1,8 +1,10 @@
 package mx.edu.utez.dealc.provider
 
 import com.google.android.gms.tasks.Task
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.Query
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -13,30 +15,15 @@ open class FirebaseProvider {
         protected val DB_REALTIME = FirebaseDatabase.getInstance()
         protected val DB_FIRESTORE = FirebaseFirestore.getInstance()
 
-        /**
-         * Obtiene la referencia a una colección y
-         * dato específico (si este es necesario) desde Realtime Database
-         * */
-        fun getRealtimeRef(collection: String, childId: String? = ""): DatabaseReference {
-            var dbRef = DB_REALTIME.getReference(collection)
-
-            if (!childId.isNullOrEmpty())
-                return dbRef.child(childId)
-            return dbRef
-        }
+        /***********************
+         * FIRESTORE FUNCTIONS *
+         ***********************/
 
         /**
          * Obtiene la referencia a una colección desde Firestore Database
          * */
         fun getCollectionRef(collection: String): CollectionReference {
             return DB_FIRESTORE.collection(collection)
-        }
-
-        /**
-         * Obtiene todos los datos de una colección
-         * */
-        fun getAllDataCollection(collection: String): Task<QuerySnapshot> {
-            return getCollectionRef(collection).get()
         }
 
         /**
@@ -58,6 +45,50 @@ open class FirebaseProvider {
          * */
         fun updateDataFire(collection: String, documentId: String, data: Map<String, Any?>): Task<Void> {
             return getDocumentRef(collection, documentId).set(data)
+        }
+
+        /**
+         * Obtiene todos los datos de una colección
+         * */
+        fun getAllDataCollection(collection: String): Task<QuerySnapshot> {
+            return getCollectionRef(collection).get()
+        }
+
+        /*************************
+         * REALTIME DB FUNCTIONS *
+         *************************/
+
+        /**
+         * Obtiene la referencia a una colección y
+         * dato específico (si este es necesario) desde Realtime Database
+         * */
+        fun getRealtimeRef(collection: String, childId: String? = ""): DatabaseReference {
+            var dbRef = DB_REALTIME.getReference(collection)
+
+            if (!childId.isNullOrEmpty())
+                return dbRef.child(childId)
+            return dbRef
+        }
+
+        /**
+         * Obten todos los datos del child
+         * */
+        fun getAllDataFromChildRealDB(collection: String, child: String): Task<DataSnapshot> {
+            return getRealtimeRef(collection, child).get()
+        }
+
+        /**
+         * Guarda datos en realtime (Any Class).
+         * */
+        fun saveDataRealDB(collection: String, childId: String, data: Any?): Task<Void> {
+            return getRealtimeRef(collection, childId).setValue(data)
+        }
+
+        /**
+         * Guarda datos en realtime (MutableList).
+         * */
+        fun saveDataRealDB(collection: String, childId: String, data: MutableList<Any?>): Task<Void> {
+            return getRealtimeRef(collection, childId).setValue(data)
         }
     }
 }
