@@ -21,13 +21,13 @@
             android:name=".view.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SplashActivity"
+            android:name=".view.SplashActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".view.UserRegisterActivity"
+            android:name=".view.UserRegisterActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
