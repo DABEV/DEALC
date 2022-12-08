@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="MENÚ DE OPCIONES"
-            android:textColor="@color/purple"
+            android:textColor="@color/dark_green"
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
