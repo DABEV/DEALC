@@ -20,4 +20,15 @@ class FirebaseLoginViewModel: ViewModel() {
             error.postValue(false)
         }
     }
+
+    suspend fun createUserWithEmailAndPassword(email: String, password: String){
+        val response = FirebaseLoginProvider.createUserWithEmailAndPassword(email, password)
+
+        if(response!!){
+            result.postValue(true)
+        }else{
+            error.postValue(false)
+        }
+
+    }
 }
