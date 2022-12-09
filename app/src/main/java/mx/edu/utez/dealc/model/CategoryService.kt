@@ -18,5 +18,25 @@ data class CategoryService(
                 element["icon"].toString()
             )
         }
+
+        /**
+         * Crea un objeto en base a un documento de Firebase
+         * */
+        fun fromMap (map: Map<String, Any>): CategoryService {
+            return CategoryService(
+                null,
+                map["name"].toString(),
+                map["icon"].toString()
+            )
+        }
+
+        /**
+         * Crea un objeto en base a un documento de Firebase
+         * */
+        fun fromMap (id: String?, map: Map<String, Any>): CategoryService {
+            val obj = fromMap(map)
+            obj.id = id
+            return obj
+        }
     }
 }

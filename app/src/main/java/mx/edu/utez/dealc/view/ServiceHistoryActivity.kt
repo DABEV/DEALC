@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import mx.edu.utez.dealc.databinding.ActivityServiceHistoryBinding
 import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
+import mx.edu.utez.dealc.model.Location
 import mx.edu.utez.dealc.model.ServiceProviderRequest
 
 class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapter.Eventos {
@@ -26,10 +27,10 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
         binding.recyclerViewServiceHistory.adapter = adapter
 
         val list: List<ServiceProviderRequest> = listOf(
-            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente"),
-            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente"),
-            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente"),
-            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente"),
+            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
+            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
+            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
+            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
         )
 
         adapter.submitList(list)
