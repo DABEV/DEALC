@@ -99,6 +99,18 @@
                     android:textStyle="bold"
                     app:cornerRadius="100dp"
                     />
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cerrar sesión"
+                    android:textColor="@color/purple"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:strokeColor="@color/purple"
+                    app:strokeWidth="3dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="100dp"
+                    />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
