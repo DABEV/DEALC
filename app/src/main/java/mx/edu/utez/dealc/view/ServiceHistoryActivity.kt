@@ -8,6 +8,7 @@ import mx.edu.utez.dealc.databinding.ActivityServiceHistoryBinding
 import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
 import mx.edu.utez.dealc.model.Location
 import mx.edu.utez.dealc.model.ServiceProviderRequest
+import java.io.Serializable
 
 class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapter.Eventos {
 
@@ -28,10 +29,10 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
         binding.recyclerViewServiceHistory.adapter = adapter
 
         val list: List<ServiceProviderRequest> = listOf(
-            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
-            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
-            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
-            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente", Location(18.8692852, -99.2080311), "", ""),
+            ServiceProviderRequest("", "Servicio 1", "1", "1", 2, "Pendiente", Location(18.8692852, -99.2080311), "1", "1"),
+            ServiceProviderRequest("", "Servicio 2", "2", "2", 2, "Pendiente", Location(18.8692852, -99.2080311), "1", "1"),
+            ServiceProviderRequest("", "Servicio 3", "3", "3", 2, "Pendiente", Location(18.8692852, -99.2080311), "1", "1"),
+            ServiceProviderRequest("", "Servicio 4", "4", "4", 2, "Pendiente", Location(18.8692852, -99.2080311), "1", "1"),
         )
 
         adapter.submitList(list)
@@ -39,7 +40,7 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
     }
 
     override fun onItemClick(element: ServiceProviderRequest, position: Int) {
-        startActivity(Intent(this, DetailServiceActivity::class.java))
+        startActivity(Intent(this, DetailServiceActivity::class.java).putExtra("serviceId", "2h6cgdAgTzIdEr2ixUFQ"))
     }
 
     override fun onChatClick(element: ServiceProviderRequest) {

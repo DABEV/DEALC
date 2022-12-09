@@ -50,6 +50,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
+        binding.textViewRegister.setOnClickListener {
+            startActivity(Intent(this, UserRegisterActivity::class.java))
+        }
         initObservers()
     }
 
