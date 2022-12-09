@@ -57,12 +57,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun initObservers() {
-        viewModel.result.observe(this) {
-            // Verifica que esta autenticación pertenezca a un cliente
-            shared.saveEmail(binding.editTextUsername.text.toString())
+        viewModel.resultObj.observe(this) {
+            shared.saveEmail(binding.editTextUsername.text.toString(), it!!.id!!)
             startActivity(Intent(applicationContext, SplashActivity::class.java))
         }
-        viewModel.error.observe(this) {
+        viewModel.errorObj.observe(this) {
             Toast.makeText(
                 applicationContext,
                 "No se encontro el usuario",

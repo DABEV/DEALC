@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CompletableDeferred
+import mx.edu.utez.dealc.model.Client
 
 class FirebaseLoginProvider {
     companion object {
@@ -14,8 +15,8 @@ class FirebaseLoginProvider {
         /**
          * Realiza la autenticación con correo y contraseña
          * */
-        suspend fun signInWithEmail(email: String, password: String, collection: String): Boolean? {
-            val response = CompletableDeferred<Boolean?>()
+        suspend fun signInWithEmail(email: String, password: String, collection: String): Client? {
+            val response = CompletableDeferred<Client?>()
 
             try {
                 AUTH.signInWithEmailAndPassword(email, password)
@@ -27,18 +28,21 @@ class FirebaseLoginProvider {
                                 .get()
                                 .addOnCompleteListener { itClient ->
                                     if (itClient.isSuccessful) {
-                                        response.complete(!itClient.result.isEmpty)
+                                        val result = itClient.result.map { element ->
+                                            Client.fromDocument(element)
+                                        }
+                                        response.complete(result[0])
                                     } else {
-                                        response.complete(false)
+                                        response.complete(null)
                                     }
                                 }
                         } else {
-                            response.complete(false)
+                            response.complete(null)
                         }
                     }
             } catch (e: Exception) {
                 Log.e(TAG, e.message!!)
-                response.complete(false)
+                response.complete(null)
             }
 
             return response.await()
@@ -53,6 +57,20 @@ class FirebaseLoginProvider {
                         response.complete(it.isSuccessful)
                     }
 
+            }catch (e: Exception){
+                Log.e(TAG, e.message!!)
+                response.complete(false)
+            }
+
+            return response.await()
+        }
+
+        suspend fun logout(): Boolean?{
+            val response = CompletableDeferred<Boolean?>()
+
+            try {
+                AUTH.signOut()
+                response.complete(true)
             }catch (e: Exception){
                 Log.e(TAG, e.message!!)
                 response.complete(false)
