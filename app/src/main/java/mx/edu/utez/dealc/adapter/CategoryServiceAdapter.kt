@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import mx.edu.utez.dealc.databinding.ItemCategoryServiceBinding
 import mx.edu.utez.dealc.model.CategoryService
 
@@ -33,7 +34,14 @@ class CategoryServiceAdapter (
         fun bind (element: CategoryService, position: Int) {
             binding.textViewCategoryService.text = element.name
 
+            Glide.with(ctx).load(element.icon).into(binding.iconService)
+
             binding.iconService.setOnClickListener {
+                this@CategoryServiceAdapter.eventos.onItemClick(element, position)
+            }
+
+            binding.linearLayoutInfo.setOnClickListener {
+                this@CategoryServiceAdapter.eventos.onItemClick(element, position)
             }
 
         }

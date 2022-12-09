@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import mx.edu.utez.dealc.databinding.ItemServiceJobBinding
 import mx.edu.utez.dealc.model.Job
 
@@ -31,6 +32,13 @@ class JobServiceAdapter(
     inner class ViewHolder (private val binding: ItemServiceJobBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (element: Job, position: Int) {
             binding.textViewJob.text = element.name
+
+            Glide.with(ctx).load(element.icon).into(binding.imageViewJob)
+
+            binding.imageViewJob.setOnClickListener {
+                this@JobServiceAdapter.eventos.onItemClick(element, position)
+            }
+
             binding.linearLayoutInfo.setOnClickListener {
                 this@JobServiceAdapter.eventos.onItemClick(element, position)
             }
