@@ -22,18 +22,30 @@ class ServiceProviderRequestViewModel: ViewModel() {
         "addRequest" to Pair(MutableLiveData(), MutableLiveData()),                                 // Boolean
         "addToChat" to Pair(MutableLiveData(), MutableLiveData()),                                  // Task<Void>?
         "getMessagesFromChat" to Pair(MutableLiveData(), MutableLiveData()),                        // List<Message>?
-        "listenMessages" to Pair(MutableLiveData(), MutableLiveData()),                        // Query?
-        "addToLocationProvider" to Pair(MutableLiveData(), MutableLiveData()),                        // Task<Void>?
-        "listenLocationFromProviderChild" to Pair(MutableLiveData(), MutableLiveData()),                        // Query?
+        "listenMessages" to Pair(MutableLiveData(), MutableLiveData()),                             // Query?
+        "addToLocationProvider" to Pair(MutableLiveData(), MutableLiveData()),                      // Task<Void>?
+        "listenLocationFromProviderChild" to Pair(MutableLiveData(), MutableLiveData()),            // Query?
+        "getRequest" to Pair(MutableLiveData(), MutableLiveData()),                                 // mx.edu.utez.dealc.model.ServiceProviderRequest?
+        "updateRequest" to Pair(MutableLiveData(), MutableLiveData()),                              // Boolean?
     )
 
-    suspend fun getAllThatBelongsToCategoryAndStatus(categoryServiceId: String, serviceStatusId: String) {
-        val response = ServiceProviderRequestProvider.getAllThatBelongsToCategoryAndStatus(categoryServiceId, serviceStatusId)
+    suspend fun getAllThatBelongsToCategoryAndStatus(categoryServiceId: String, serviceStatusId: String, providerId: String = "") {
+        val response = ServiceProviderRequestProvider.getAllThatBelongsToCategoryAndStatus(categoryServiceId, serviceStatusId, providerId)
 
         if (response != null && response.isNotEmpty()) {
             responsesToSend["getAllThatBelongsToCategoryAndStatus"]?.first?.postValue(response)
         } else {
             responsesToSend["getAllThatBelongsToCategoryAndStatus"]?.second?.postValue(null)
+        }
+    }
+
+    suspend fun getRequest(requestId: String) {
+        val response = ServiceProviderRequestProvider.getRequest(requestId)
+
+        if (response != null) {
+            responsesToSend["getRequest"]?.first?.postValue(response)
+        } else {
+            responsesToSend["getRequest"]?.second?.postValue(null)
         }
     }
 
@@ -44,6 +56,16 @@ class ServiceProviderRequestViewModel: ViewModel() {
             responsesToSend["addRequest"]?.first?.postValue(response)
         } else {
             responsesToSend["addRequest"]?.second?.postValue(false)
+        }
+    }
+
+    suspend fun updateRequest(serviceProviderRequest: ServiceProviderRequest) {
+        val response = ServiceProviderRequestProvider.updateRequest(serviceProviderRequest)
+
+        if (response!!) {
+            responsesToSend["updateRequest"]?.first?.postValue(response)
+        } else {
+            responsesToSend["updateRequest"]?.second?.postValue(false)
         }
     }
 

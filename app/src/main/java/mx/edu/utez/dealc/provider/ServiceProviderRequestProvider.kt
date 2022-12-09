@@ -4,9 +4,7 @@ import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.Query
 import kotlinx.coroutines.CompletableDeferred
-import mx.edu.utez.dealc.model.Location
-import mx.edu.utez.dealc.model.Message
-import mx.edu.utez.dealc.model.ServiceProviderRequest
+import mx.edu.utez.dealc.model.*
 
 class ServiceProviderRequestProvider : FirebaseProvider() {
     companion object {
@@ -18,6 +16,30 @@ class ServiceProviderRequestProvider : FirebaseProvider() {
             "client" to "pointsClient",
             "provider" to "pointsProvider",
         )
+
+        /**
+         * Obtiene toda la info de una petición
+         * */
+        suspend fun getRequest(requestId: String): ServiceProviderRequest? {
+            val response = CompletableDeferred<ServiceProviderRequest?>()
+
+            try {
+                getDocumentRef(COLLECTION_NAME, requestId)
+                    .get()
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            response.complete(ServiceProviderRequest.fromMap(it.result.id, it.result.data!!))
+                        } else {
+                            response.complete(null)
+                        }
+                    }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message!!)
+                response.complete(null)
+            }
+
+            return response.await()
+        }
 
         /**
          * Registra una nueva petición en Firestore
@@ -39,17 +61,45 @@ class ServiceProviderRequestProvider : FirebaseProvider() {
         }
 
         /**
+         * Actualiza una petición en Firestore
+         * */
+        suspend fun updateRequest(serviceProviderRequest: ServiceProviderRequest): Boolean? {
+            val response = CompletableDeferred<Boolean?>()
+
+            try {
+                updateDataFire(ClientProvider.COLLECTION_NAME, serviceProviderRequest.id!!, serviceProviderRequest.toMap())
+                    .addOnCompleteListener {
+                        response.complete(it.isSuccessful)
+                    }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message!!)
+                response.complete(false)
+            }
+
+            return response.await()
+        }
+
+        /**
          * Obten todos los Services Request que
          * pertenezcan a mi categoría y a un estatus
          * */
-        suspend fun getAllThatBelongsToCategoryAndStatus(categoryServiceId: String, serviceStatusId: String): List<ServiceProviderRequest>? {
+        suspend fun getAllThatBelongsToCategoryAndStatus(categoryServiceId: String, serviceStatusId: String, providerId: String = ""): List<ServiceProviderRequest>? {
             val response = CompletableDeferred<List<ServiceProviderRequest>?>()
 
+            var query = getCollectionRef(COLLECTION_NAME)
+                .whereEqualTo("categoryServiceId", categoryServiceId)
+                .whereEqualTo("serviceStatusId", serviceStatusId)
+
+            /**
+             * En caso de que hayan mandado un provider, entonces lo consideramos para
+             * la consulta
+             * */
+            if (!providerId.isNullOrEmpty()) {
+                query = query.whereEqualTo("providerId", providerId)
+            }
+
             try {
-                getCollectionRef(COLLECTION_NAME)
-                    .whereEqualTo("categoryServiceId", categoryServiceId)
-                    .whereEqualTo("serviceStatusId", serviceStatusId)
-                    .get()
+                query.get()
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             response.complete(it.result.map { element ->

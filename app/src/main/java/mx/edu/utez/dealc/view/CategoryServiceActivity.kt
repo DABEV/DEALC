@@ -2,39 +2,61 @@ package mx.edu.utez.dealc.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import mx.edu.utez.dealc.adapter.CategoryServiceAdapter
-import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
 import mx.edu.utez.dealc.databinding.ActivityCategoryServiceBinding
 import mx.edu.utez.dealc.model.CategoryService
-import mx.edu.utez.dealc.model.ServiceProviderRequest
+import mx.edu.utez.dealc.viewmodel.CategoryServiceViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
 
 class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Eventos {
     lateinit var binding: ActivityCategoryServiceBinding
     lateinit var adapter: CategoryServiceAdapter
+    lateinit var viewModel: CategoryServiceViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityCategoryServiceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setData()
+        viewModel = ViewModelProvider(this).get(CategoryServiceViewModel::class.java)
+        var list = ArrayList<CategoryService>()
+
+
+        lifecycleScope.launch {
+            viewModel.getAll()
+        }
+
+        initObservers()
+
     }
 
-    private fun setData () {
+    fun initObservers(){
+        viewModel.resultMany.observe(this){
+            setData(it)
+        }
+
+        viewModel.errorMany.observe(this){
+            Toast.makeText(applicationContext, "Ocurrio un error", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setData (lista: List<CategoryService>) {
+
         binding.recyclerViewCategoryService.layoutManager = LinearLayoutManager(this)
         adapter = CategoryServiceAdapter(this, this)
         binding.recyclerViewCategoryService.adapter = adapter
-
-        val list: List<CategoryService> = listOf(
-            CategoryService("", "Categoria 1", "icono 1"),
-            CategoryService("", "Categoria 2", "icono 2"),
-            CategoryService("", "Categoria 3", "icono 3"),
-        )
-        adapter.submitList(list)
+        adapter.submitList(lista)
         adapter.notifyDataSetChanged()
-    }
 
+            }
 
     override fun onItemClick(element: CategoryService, position: Int) {
+
     }
 }
