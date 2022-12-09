@@ -1,13 +1,17 @@
 package mx.edu.utez.dealc.adapter
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import mx.edu.utez.dealc.databinding.ItemCategoryServiceBinding
 import mx.edu.utez.dealc.model.CategoryService
+import java.io.InputStream
+import java.net.URL
 
 class CategoryServiceAdapter (
     private val eventos: Eventos,
@@ -33,7 +37,15 @@ class CategoryServiceAdapter (
         fun bind (element: CategoryService, position: Int) {
             binding.textViewCategoryService.text = element.name
 
+            Glide.with(ctx).load(element.icon).into(binding.iconService)
+
+
             binding.iconService.setOnClickListener {
+                this@CategoryServiceAdapter.eventos.onItemClick(element, position)
+            }
+
+            binding.linearLayoutInfo.setOnClickListener {
+                this@CategoryServiceAdapter.eventos.onItemClick(element, position)
             }
 
         }

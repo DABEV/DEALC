@@ -1,5 +1,6 @@
 package mx.edu.utez.dealc.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -24,7 +25,7 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
         viewModel = ViewModelProvider(this).get(JobViewModel::class.java)
 
         lifecycleScope.launch {
-            viewModel.getAll()
+            viewModel.getAllByCategory(intent.getStringExtra("categoryServiceId")!!)
         }
 
         initObservers()
@@ -32,18 +33,18 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
 
     fun initObservers(){
 
-        viewModel.responsesToSend["getAll"]?.first?.observe(this){
+        viewModel.responsesToSend["getAllByCategory"]?.first?.observe(this){
             setData(it as List<Job>)
         }
 
-        viewModel.responsesToSend["getAll"]?.second?.observe(this){
+        viewModel.responsesToSend["getAllByCategory"]?.second?.observe(this){
             Toast.makeText(applicationContext, "Ocurrio un error", Toast.LENGTH_SHORT).show()
         }
 
     }
 
     private fun setData (lista: List<Job>) {
-
+        print("lista : ${lista.toString()}")
         binding.recyclerViewServiceJob.layoutManager = LinearLayoutManager(this)
         adapter = JobServiceAdapter(this, this)
         binding.recyclerViewServiceJob.adapter = adapter
@@ -53,5 +54,6 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     }
 
     override fun onItemClick(element: Job, position: Int) {
+        startActivity(Intent(this, MapsActivity::class.java))
     }
 }

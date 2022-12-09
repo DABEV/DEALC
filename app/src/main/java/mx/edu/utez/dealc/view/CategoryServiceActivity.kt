@@ -58,6 +58,7 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
             }
 
     override fun onItemClick(element: CategoryService, position: Int) {
-        startActivity(Intent(this, MapsActivity::class.java))
+        startActivity(Intent(this, JobServiceActivity::class.java)
+            .putExtra("categoryServiceId", element.id))
     }
 }
