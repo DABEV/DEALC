@@ -1,5 +1,6 @@
 package mx.edu.utez.dealc.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
@@ -27,6 +28,10 @@ private lateinit var binding: ActivityMapsBinding
         val mapFragment = supportFragmentManager
                 .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        binding.buttonSelectLocation.setOnClickListener {
+            startActivity(Intent(this, ConfirmationActivity::class.java))
+        }
     }
 
     /**
