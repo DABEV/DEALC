@@ -35,9 +35,6 @@
             android:name=".view.ChatActivity"
             android:exported="false" />
         <activity
-            android:name=".view.ChatActivity"
-            android:exported="false" />
-        <activity 
             android:name=".view.SplashActivity"
             android:exported="false">
             <meta-data
@@ -54,14 +51,6 @@
         <activity
             android:name=".view.MenuActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".view.ChatActivity"
-            android:exported="false" />
-        <activity android:name=".view.SplashActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
