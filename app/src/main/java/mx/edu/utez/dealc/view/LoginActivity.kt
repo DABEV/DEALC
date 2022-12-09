@@ -3,27 +3,29 @@ package mx.edu.utez.dealc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import mx.edu.utez.dealc.MainCoreApplication
 import mx.edu.utez.dealc.databinding.ActivityLoginBinding
 import mx.edu.utez.dealc.viewmodel.FirebaseLoginViewModel
 
 class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     lateinit var viewModel: FirebaseLoginViewModel
-    lateinit var shared:Shared
+    private val shared = MainCoreApplication.shared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        shared = Shared(applicationContext)
         viewModel = ViewModelProvider(this).get(FirebaseLoginViewModel::class.java)
 
-        if(!shared.get().isNullOrEmpty()){
-            startActivity(Intent(this, SplashActivity::class.java))
+        if(shared.isLogged()){
+            startActivity(Intent(this, MenuActivity::class.java))
+            finish()
         }
 
         binding.buttonAccess.setOnClickListener {
@@ -35,7 +37,8 @@ class LoginActivity : AppCompatActivity() {
                 if (!user.isNullOrEmpty() && !password.isNullOrEmpty()) {
                     viewModel.signInWithEmail(
                         binding.editTextUsername.text.toString(),
-                        binding.editTextPassword.text.toString()
+                        binding.editTextPassword.text.toString(),
+                        "Client"
                     )
 
                 } else {
@@ -48,12 +51,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         initObservers()
-
     }
 
     fun initObservers() {
         viewModel.result.observe(this) {
-            shared.guardarUsuario( binding.editTextUsername.text.toString())
+            // Verifica que esta autenticación pertenezca a un cliente
+            shared.saveEmail(binding.editTextUsername.text.toString())
             startActivity(Intent(applicationContext, SplashActivity::class.java))
         }
         viewModel.error.observe(this) {
@@ -64,5 +67,4 @@ class LoginActivity : AppCompatActivity() {
             ).show()
         }
     }
-
 }
