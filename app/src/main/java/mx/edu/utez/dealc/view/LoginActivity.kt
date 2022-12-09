@@ -1,8 +1,6 @@
 package mx.edu.utez.dealc.view
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -27,7 +25,6 @@ class LoginActivity : AppCompatActivity() {
         if(!shared.get().isNullOrEmpty()){
             startActivity(Intent(this, MainActivity::class.java))
         }
-
 
         binding.buttonAccess.setOnClickListener {
 
@@ -58,8 +55,6 @@ class LoginActivity : AppCompatActivity() {
         viewModel.result.observe(this) {
             shared.guardarUsuario( binding.editTextUsername.text.toString())
             startActivity(Intent(applicationContext, MainActivity::class.java))
-
-
         }
         viewModel.error.observe(this) {
             Toast.makeText(
