@@ -18,5 +18,25 @@ data class ServiceStatus(
                 element["icon"].toString()
             )
         }
+
+        /**
+         * Crea un objeto en base a un documento de Firebase
+         * */
+        fun fromMap (map: Map<String, Any>): ServiceStatus {
+            return ServiceStatus(
+                null,
+                map["name"].toString(),
+                map["icon"].toString()
+            )
+        }
+
+        /**
+         * Crea un objeto en base a un documento de Firebase
+         * */
+        fun fromMap (id: String?, map: Map<String, Any>): ServiceStatus {
+            val obj = fromMap(map)
+            obj.id = id
+            return obj
+        }
     }
 }

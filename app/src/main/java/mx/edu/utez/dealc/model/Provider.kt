@@ -24,6 +24,29 @@ data class Provider(
                 element["services"] as MutableList<String>
             )
         }
+
+        /**
+         * Crea un objeto en base a un mapa de Firebase
+         * */
+        fun fromMap (map: Map<String, Any>): Provider {
+            return Provider(
+                null,
+                map["name"].toString(),
+                map["lastName"].toString(),
+                map["email"].toString(),
+                map["phone"].toString(),
+                map["services"] as MutableList<String>
+            )
+        }
+
+        /**
+         * Crea un objeto en base a un mapa de Firebase
+         * */
+        fun fromMap (id: String, map: Map<String, Any>): Provider {
+            val obj = fromMap(map)
+            obj.id = id
+            return obj
+        }
     }
 
     override fun toMap(): MutableMap<String, Any?> {
