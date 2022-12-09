@@ -3,21 +3,30 @@ package mx.edu.utez.dealc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import mx.edu.utez.dealc.MainCoreApplication
 import mx.edu.utez.dealc.databinding.ActivityServiceHistoryBinding
 import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
 import mx.edu.utez.dealc.model.Location
 import mx.edu.utez.dealc.model.ServiceProviderRequest
+import mx.edu.utez.dealc.provider.ServiceProviderRequestProvider
+import mx.edu.utez.dealc.viewmodel.ClientViewModel
+import mx.edu.utez.dealc.viewmodel.ServiceProviderRequestViewModel
 
 class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapter.Eventos {
 
     lateinit var binding: ActivityServiceHistoryBinding
     lateinit var adapter: ServiceProviderRequestAdapter
+    lateinit var viewModel: ServiceProviderRequestViewModel
+    private val shared = MainCoreApplication.shared
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityServiceHistoryBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(ServiceProviderRequestViewModel::class.java)
 
         setData()
     }
