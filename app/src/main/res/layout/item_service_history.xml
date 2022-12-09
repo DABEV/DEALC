@@ -14,20 +14,7 @@
         android:orientation="horizontal"
         android:layout_margin="10dp"
         >
-        <!-- Comentario -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="6"
-            android:gravity="center"
-            android:orientation="vertical">
-            <ImageView
-                android:id="@+id/imageViewChat"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_chat"
-                />
-        </LinearLayout>
+
 
         <!-- Información del servicio -->
         <LinearLayout
@@ -56,18 +43,12 @@
             android:layout_weight="6"
             android:gravity="center"
             android:orientation="vertical">
-
             <ImageView
-                android:id="@+id/imageViewAccept"
+                android:id="@+id/imageViewChat"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginBottom="10dp"
-                android:src="@drawable/ic_check"/>
-            <ImageView
-                android:id="@+id/imageViewReject"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_cancel"/>
+                android:background="@drawable/ic_chat"
+                />
         </LinearLayout>
     </LinearLayout>
 
