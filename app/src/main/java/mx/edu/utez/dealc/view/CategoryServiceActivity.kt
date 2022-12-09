@@ -55,9 +55,10 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
         adapter.submitList(lista)
         adapter.notifyDataSetChanged()
 
-            }
+    }
 
     override fun onItemClick(element: CategoryService, position: Int) {
-        startActivity(Intent(this, MapsActivity::class.java))
+        startActivity(Intent(this, JobServiceActivity::class.java)
+            .putExtra("categoryServiceId", element.id))
     }
 }
