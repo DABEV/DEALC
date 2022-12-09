@@ -4,56 +4,59 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import mx.edu.utez.dealc.adapter.CategoryServiceAdapter
-import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
 import mx.edu.utez.dealc.databinding.ActivityCategoryServiceBinding
 import mx.edu.utez.dealc.model.CategoryService
-import mx.edu.utez.dealc.model.ServiceProviderRequest
+import mx.edu.utez.dealc.viewmodel.CategoryServiceViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
+
 
 class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Eventos {
     lateinit var binding: ActivityCategoryServiceBinding
     lateinit var adapter: CategoryServiceAdapter
+    lateinit var viewModel: CategoryServiceViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityCategoryServiceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setData()
+        viewModel = ViewModelProvider(this).get(CategoryServiceViewModel::class.java)
+        var list = ArrayList<CategoryService>()
+
+
+        lifecycleScope.launch {
+            viewModel.getAll()
+        }
+
+        initObservers()
+
     }
 
-    private fun setData () {
+    fun initObservers(){
+        viewModel.resultMany.observe(this){
+            setData(it)
+        }
 
-        val list = ArrayList<CategoryService>()
+        viewModel.errorMany.observe(this){
+            Toast.makeText(applicationContext, "Ocurrio un error", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-        Firebase.firestore.collection("CategoryService")
-            .get()
-            .addOnSuccessListener { docs ->
+    private fun setData (lista: List<CategoryService>) {
 
-                if(docs != null){
-                    for (doc in docs){
-                        list.add(CategoryService(doc.id, doc.data["name"].toString(),
-                        ""))
-
-                    }
-                    binding.recyclerViewCategoryService.layoutManager = LinearLayoutManager(this)
-                    adapter = CategoryServiceAdapter(this, this)
-                    binding.recyclerViewCategoryService.adapter = adapter
-                    adapter.submitList(list)
-                    adapter.notifyDataSetChanged()
-                }else {
-                    Toast.makeText(applicationContext, "No such document", Toast.LENGTH_SHORT).show()
-                }
+        binding.recyclerViewCategoryService.layoutManager = LinearLayoutManager(this)
+        adapter = CategoryServiceAdapter(this, this)
+        binding.recyclerViewCategoryService.adapter = adapter
+        adapter.submitList(lista)
+        adapter.notifyDataSetChanged()
 
             }
 
-
-
-    }
-
-
     override fun onItemClick(element: CategoryService, position: Int) {
+
     }
 }
