@@ -16,7 +16,7 @@ class MenuActivity : AppCompatActivity() {
         getFirebaseToken()
 
         binding.btnProfile.setOnClickListener {
-            //pendiente de agregar
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
 
         binding.btnHistory.setOnClickListener {
