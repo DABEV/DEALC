@@ -1,5 +1,6 @@
 package mx.edu.utez.dealc.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.google.firebase.messaging.FirebaseMessaging
@@ -15,12 +16,16 @@ class MenuActivity : AppCompatActivity() {
         getFirebaseToken()
 
         binding.btnProfile.setOnClickListener {
-
+            //pendiente de agregar
         }
 
-        binding.btnHistory.setOnClickListener {  }
+        binding.btnHistory.setOnClickListener {
+            startActivity(Intent(this, ServiceHistoryActivity::class.java))
+        }
 
-        binding.btnService.setOnClickListener {  }
+        binding.btnService.setOnClickListener {
+            startActivity(Intent(this, CategoryServiceActivity::class.java))
+        }
     }
 
     fun getFirebaseToken(){

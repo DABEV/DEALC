@@ -1,5 +1,6 @@
 package mx.edu.utez.dealc.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,9 +39,11 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
     }
 
     override fun onItemClick(element: ServiceProviderRequest, position: Int) {
+        startActivity(Intent(this, DetailServiceActivity::class.java))
     }
 
     override fun onChatClick(element: ServiceProviderRequest) {
+        startActivity(Intent(this, ChatActivity::class.java))
     }
 
     override fun onAcceptClick(element: ServiceProviderRequest) {

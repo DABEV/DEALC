@@ -1,5 +1,6 @@
 package mx.edu.utez.dealc.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -57,6 +58,6 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
             }
 
     override fun onItemClick(element: CategoryService, position: Int) {
-
+        startActivity(Intent(this, MapsActivity::class.java))
     }
 }
