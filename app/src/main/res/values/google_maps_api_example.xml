@@ -24,6 +24,6 @@
     - Paste your API Key
     -->
     <string name="google_maps_key_example" templateMergeStrategy="preserve" translatable="false">
-        YOUR_KEY_HERE
+        AIzaSyAghMrVYlbvv5Oun3miWH79CRTwRmOiQEA
     </string>
 </resources>
