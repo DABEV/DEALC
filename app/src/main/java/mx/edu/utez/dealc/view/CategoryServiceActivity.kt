@@ -2,7 +2,11 @@ package mx.edu.utez.dealc.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import mx.edu.utez.dealc.adapter.CategoryServiceAdapter
 import mx.edu.utez.dealc.adapter.ServiceProviderRequestAdapter
 import mx.edu.utez.dealc.databinding.ActivityCategoryServiceBinding
@@ -21,17 +25,32 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
     }
 
     private fun setData () {
-        binding.recyclerViewCategoryService.layoutManager = LinearLayoutManager(this)
-        adapter = CategoryServiceAdapter(this, this)
-        binding.recyclerViewCategoryService.adapter = adapter
 
-        val list: List<CategoryService> = listOf(
-            CategoryService("", "Categoria 1", "icono 1"),
-            CategoryService("", "Categoria 2", "icono 2"),
-            CategoryService("", "Categoria 3", "icono 3"),
-        )
-        adapter.submitList(list)
-        adapter.notifyDataSetChanged()
+        val list = ArrayList<CategoryService>()
+
+        Firebase.firestore.collection("CategoryService")
+            .get()
+            .addOnSuccessListener { docs ->
+
+                if(docs != null){
+                    for (doc in docs){
+                        list.add(CategoryService(doc.id, doc.data["name"].toString(),
+                        ""))
+
+                    }
+                    binding.recyclerViewCategoryService.layoutManager = LinearLayoutManager(this)
+                    adapter = CategoryServiceAdapter(this, this)
+                    binding.recyclerViewCategoryService.adapter = adapter
+                    adapter.submitList(list)
+                    adapter.notifyDataSetChanged()
+                }else {
+                    Toast.makeText(applicationContext, "No such document", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+
+
     }
 
 
