@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(FirebaseLoginViewModel::class.java)
 
         if(!shared.get().isNullOrEmpty()){
-            startActivity(Intent(this, MainActivity::class.java))
+            startActivity(Intent(this, SplashActivity::class.java))
         }
 
 
@@ -57,7 +57,7 @@ class LoginActivity : AppCompatActivity() {
     fun initObservers() {
         viewModel.result.observe(this) {
             shared.guardarUsuario( binding.editTextUsername.text.toString())
-            startActivity(Intent(applicationContext, MainActivity::class.java))
+            startActivity(Intent(applicationContext, SplashActivity::class.java))
 
 
         }
