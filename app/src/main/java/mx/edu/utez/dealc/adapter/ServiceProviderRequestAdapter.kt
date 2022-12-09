@@ -41,14 +41,6 @@ class ServiceProviderRequestAdapter(
                 this@ServiceProviderRequestAdapter.eventos.onItemClick(element, position)
             }
 
-            binding.imageViewAccept.setOnClickListener {
-                this@ServiceProviderRequestAdapter.eventos.onAcceptClick(element)
-            }
-
-            binding.imageViewReject.setOnClickListener {
-                this@ServiceProviderRequestAdapter.eventos.onRejectClick(element)
-            }
-
             binding.imageViewChat.setOnClickListener {
                 this@ServiceProviderRequestAdapter.eventos.onChatClick(element)
             }

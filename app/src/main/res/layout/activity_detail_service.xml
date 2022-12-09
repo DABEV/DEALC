@@ -50,29 +50,32 @@
                     android:text="DETALLE DEL SRVICIO" />
                 <TextView
                     android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Nombre del servicio"
+                    />
+                <TextView
                     android:id="@+id/textViewName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
                     android:text="Nombre"
                     />
                 <TextView
-                    android:id="@+id/textViewCategoryService"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_width="match_parent"
                     android:textSize="14sp"
-                    android:layout_marginTop="5dp"
-                    android:text="Categoria del servicio"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    android:layout_height="wrap_content"
+                    android:text="Detalles"
                     />
                 <TextView
                     android:gravity="center"
-                    android:id="@+id/textViewNameService"
+                    android:id="@+id/textViewDetails"
                     android:layout_width="match_parent"
-                    android:textSize="14sp"
-                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
                     android:text="Nombre del servicio"

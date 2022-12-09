@@ -21,9 +21,8 @@ class DetailServiceActivity : AppCompatActivity() {
         val data = FirebaseFirestore.getInstance().collection("ServiceProviderRequest").document(dataService.toString())
         data.get().addOnSuccessListener {
             if(it["clientId"] != null){
-                binding.textViewName.text = it["providerId"].toString()
-                binding.textViewCategoryService.text = it["categoryServiceId"].toString()
-                binding.textViewNameService.text = it["shortDescription"].toString()
+                binding.textViewName.text = it["shortDescription"].toString()
+                binding.textViewDetails.text = it["serviceProviderComments"].toString()
             }else{
                 Toast.makeText(this, "Dato inexistente", Toast.LENGTH_SHORT).show()
             }

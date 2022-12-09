@@ -6,7 +6,7 @@ import mx.edu.utez.dealc.model.Client
 import mx.edu.utez.dealc.provider.ClientProvider
 
 class ClientViewModel : ViewModel() {
-    /**
+     /**
      * Cada posición del mapa representa
      * String = nombre del método
      * Pair<> = Las posibles respuestas de cada método (correct y fallido)
