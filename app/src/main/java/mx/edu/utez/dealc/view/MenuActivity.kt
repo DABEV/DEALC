@@ -3,18 +3,26 @@ package mx.edu.utez.dealc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.launch
 import mx.edu.utez.dealc.MainCoreApplication
 import mx.edu.utez.dealc.databinding.ActivityMenuBinding
+import mx.edu.utez.dealc.viewmodel.FirebaseLoginViewModel
 
 class MenuActivity : AppCompatActivity() {
     lateinit var binding : ActivityMenuBinding
     private val shared = MainCoreApplication.shared
+    lateinit var viewModel: FirebaseLoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMenuBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = ViewModelProvider(this).get(FirebaseLoginViewModel::class.java)
 
         getFirebaseToken()
 
@@ -31,9 +39,23 @@ class MenuActivity : AppCompatActivity() {
         }
 
         binding.btnLogout.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.logout()
+            }
+        }
+
+        initObservers()
+    }
+
+    private fun initObservers() {
+        viewModel.result.observe(this) {
             shared.delete()
             startActivity(Intent(this, SplashActivity::class.java))
             finish()
+        }
+
+        viewModel.error.observe(this) {
+            Toast.makeText(applicationContext, "Ha ocurrido un error", Toast.LENGTH_SHORT).show()
         }
     }
 

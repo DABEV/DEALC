@@ -2,11 +2,15 @@ package mx.edu.utez.dealc.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import mx.edu.utez.dealc.model.Client
 import mx.edu.utez.dealc.provider.FirebaseLoginProvider
 
 class FirebaseLoginViewModel: ViewModel() {
     val result: MutableLiveData<Boolean> = MutableLiveData()
     val error: MutableLiveData<Boolean> = MutableLiveData()
+
+    val resultObj: MutableLiveData<Client?> = MutableLiveData()
+    val errorObj: MutableLiveData<Client?> = MutableLiveData()
 
     /**
      * Realiza la autenticación con correo y contraseña
@@ -14,10 +18,10 @@ class FirebaseLoginViewModel: ViewModel() {
     suspend fun signInWithEmail(email: String, password: String, collection: String) {
         val response = FirebaseLoginProvider.signInWithEmail(email, password, collection)
 
-        if (response!!) {
-            result.postValue(true)
+        if (response != null) {
+            resultObj.postValue(response)
         } else {
-            error.postValue(false)
+            errorObj.postValue(null)
         }
     }
 
@@ -29,6 +33,15 @@ class FirebaseLoginViewModel: ViewModel() {
         }else{
             error.postValue(false)
         }
+    }
 
+    suspend fun logout() {
+        val response = FirebaseLoginProvider.logout()
+
+        if (response!!) {
+            result.postValue(true)
+        } else {
+            error.postValue(false)
+        }
     }
 }
