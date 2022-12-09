@@ -11,8 +11,8 @@ class FirebaseLoginViewModel: ViewModel() {
     /**
      * Realiza la autenticación con correo y contraseña
      * */
-    suspend fun signInWithEmail(email: String, password: String) {
-        val response = FirebaseLoginProvider.signInWithEmail(email, password)
+    suspend fun signInWithEmail(email: String, password: String, collection: String) {
+        val response = FirebaseLoginProvider.signInWithEmail(email, password, collection)
 
         if (response!!) {
             result.postValue(true)
