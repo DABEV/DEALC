@@ -199,5 +199,34 @@ class ServiceProviderRequestProvider : FirebaseProvider() {
 
             return response.await()
         }
+        /**
+         * Obten todos los Services Request que
+         * pertenezcan a mi
+         * */
+        suspend fun getAllThatBelongsToMe(userId: String, field: String = "clientId"): List<ServiceProviderRequest>? {
+            val response = CompletableDeferred<List<ServiceProviderRequest>?>()
+
+            var query = getCollectionRef(COLLECTION_NAME)
+                .whereEqualTo(field, userId)
+
+            try {
+                query.get()
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            response.complete(it.result.map { element ->
+                                ServiceProviderRequest.fromDocument(element)
+                            })
+                        } else {
+                            response.complete(listOf())
+                        }
+                    }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message!!)
+                response.complete(listOf())
+            }
+
+            return response.await()
+        }
+
     }
 }

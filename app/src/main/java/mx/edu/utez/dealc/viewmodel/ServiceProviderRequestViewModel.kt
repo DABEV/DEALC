@@ -27,6 +27,7 @@ class ServiceProviderRequestViewModel: ViewModel() {
         "listenLocationFromProviderChild" to Pair(MutableLiveData(), MutableLiveData()),            // Query?
         "getRequest" to Pair(MutableLiveData(), MutableLiveData()),                                 // mx.edu.utez.dealc.model.ServiceProviderRequest?
         "updateRequest" to Pair(MutableLiveData(), MutableLiveData()),                              // Boolean?
+        "getAllThatBelongsToMe" to Pair(MutableLiveData(), MutableLiveData()),                      // List<mx.edu.utez.dealc.model.ServiceProviderRequest>?
     )
 
     suspend fun getAllThatBelongsToCategoryAndStatus(categoryServiceId: String, serviceStatusId: String, providerId: String = "") {
@@ -116,6 +117,16 @@ class ServiceProviderRequestViewModel: ViewModel() {
             responsesToSend["listenLocationFromProviderChild"]?.first?.postValue(response)
         } else {
             responsesToSend["listenLocationFromProviderChild"]?.second?.postValue(null)
+        }
+    }
+
+    suspend fun getAllThatBelongsToMe(userId: String) {
+        val response = ServiceProviderRequestProvider.getAllThatBelongsToMe(userId)
+
+        if (response != null && response.isNotEmpty()) {
+            responsesToSend["getAllThatBelongsToMe"]?.first?.postValue(response)
+        } else {
+            responsesToSend["getAllThatBelongsToMe"]?.second?.postValue(null)
         }
     }
 }
