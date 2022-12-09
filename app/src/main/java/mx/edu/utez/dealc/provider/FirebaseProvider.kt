@@ -5,10 +5,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.Query
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.*
 
 open class FirebaseProvider {
     companion object {
@@ -31,6 +28,13 @@ open class FirebaseProvider {
          * */
         fun getDocumentRef(collection: String, documentId: String): DocumentReference {
             return getCollectionRef(collection).document(documentId)
+        }
+
+        /**
+         * Obtiene toda la info de un documento desde Firestore Database
+         * */
+        fun getDataFromRef(collection: String, documentId: String): Task<DocumentSnapshot> {
+            return getCollectionRef(collection).document(documentId).get()
         }
 
         /**

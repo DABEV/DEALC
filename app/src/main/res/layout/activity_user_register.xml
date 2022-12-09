@@ -4,60 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:gravity="center"
-    android:layout_margin="20dp"
+    android:background="@color/dark_green"
     tools:context=".view.UserRegisterActivity">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Registro de usuario"
-        android:textSize="20dp"
-        android:textStyle="bold"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="4">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_plantas_back"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_weight="1"
+        android:padding="30dp"
+        android:background="@drawable/border"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
         android:gravity="center"
-        />
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="REGISTRO DE USUARIO"
+            android:textSize="20dp"
+            android:layout_marginBottom="15dp"
+            android:textStyle="bold"
+            android:textColor="@color/purple"
+            android:gravity="center"
+            />
+        <EditText
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_gray"
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            />
+        <EditText
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_gray"
+            android:id="@+id/editTextLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Apellido"
+            />
+        <EditText
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_gray"
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Correo electronico"
+            />
+        <EditText
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_gray"
+            android:id="@+id/editTextPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telefono"
+            />
+        <EditText
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_gray"
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contraseña"
+            />
 
-    <EditText
-        android:id="@+id/editTextName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Nombre"
-        />
-
-    <EditText
-        android:id="@+id/editTextLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Apellido"
-        />
-
-    <EditText
-        android:id="@+id/editTextEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Correo electronico"
-        />
-
-    <EditText
-        android:id="@+id/editTextPhone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Telefono"
-        />
-
-    <EditText
-        android:id="@+id/editTextPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contraseña"
-        />
-
-    <Button
-        android:id="@+id/buttonRegisterUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Registrar"
-        />
-
+        <Button
+            android:id="@+id/buttonRegisterUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Registrar"
+            android:textColor="@color/purple"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="@color/purple"
+            app:strokeWidth="3dp"
+            android:textStyle="bold"
+            app:cornerRadius="100dp"
+            />
+    </LinearLayout>
 </LinearLayout>
