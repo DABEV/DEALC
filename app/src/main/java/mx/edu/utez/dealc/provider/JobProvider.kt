@@ -41,7 +41,7 @@ class JobProvider : FirebaseProvider() {
             val response = CompletableDeferred<List<Job>?>()
 
             try {
-                getCollectionRef(ServiceProviderRequestProvider.COLLECTION_NAME)
+                getCollectionRef(COLLECTION_NAME)
                     .whereEqualTo("categoryServiceId", categoryServiceId)
                     .get()
                     .addOnCompleteListener {

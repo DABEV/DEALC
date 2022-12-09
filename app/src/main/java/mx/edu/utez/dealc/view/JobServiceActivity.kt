@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
-import mx.edu.utez.dealc.adapter.CategoryServiceAdapter
 import mx.edu.utez.dealc.adapter.JobServiceAdapter
 import mx.edu.utez.dealc.databinding.ActivityJobServiceBinding
 import mx.edu.utez.dealc.model.Job
@@ -44,7 +43,6 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     }
 
     private fun setData (lista: List<Job>) {
-        print("lista : ${lista.toString()}")
         binding.recyclerViewServiceJob.layoutManager = LinearLayoutManager(this)
         adapter = JobServiceAdapter(this, this)
         binding.recyclerViewServiceJob.adapter = adapter
