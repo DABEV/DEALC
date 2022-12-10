@@ -18,11 +18,19 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     lateinit var binding: ActivityJobServiceBinding
     lateinit var viewModel: JobViewModel
     lateinit var adapter: JobServiceAdapter
+    lateinit var  categoryServiceId: String
+    lateinit var categoryServiceName: String
+    lateinit var categoryServiceIcon: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJobServiceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(JobViewModel::class.java)
+
+        categoryServiceId = intent.getStringExtra("categoryServiceId")!!
+        categoryServiceIcon = intent.getStringExtra("categoryServiceIcon")!!
+        categoryServiceName = intent.getStringExtra("categoryServiceName")!!
 
         lifecycleScope.launch {
             viewModel.getAllByCategory(intent.getStringExtra("categoryServiceId")!!)
@@ -54,6 +62,11 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     }
 
     override fun onItemClick(element: Job, position: Int) {
-        startActivity(Intent(applicationContext, MapsActivity::class.java))
+        var intent = Intent(applicationContext, MapsActivity::class.java)
+        intent.putExtra("categoryServiceId", categoryServiceId)
+        intent.putExtra("categoryServiceName",categoryServiceName)
+        intent.putExtra("categoryServiceIcon", categoryServiceIcon)
+        startActivity(intent)
+        finish()
     }
 }

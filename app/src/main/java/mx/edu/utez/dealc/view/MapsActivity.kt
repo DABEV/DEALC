@@ -16,13 +16,19 @@ import mx.edu.utez.dealc.databinding.ActivityMapsBinding
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-private lateinit var binding: ActivityMapsBinding
+    private lateinit var binding: ActivityMapsBinding
+    lateinit var  categoryServiceId: String
+    lateinit var categoryServiceName: String
+    lateinit var categoryServiceIcon: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityMapsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-     binding = ActivityMapsBinding.inflate(layoutInflater)
-     setContentView(binding.root)
+        categoryServiceId = intent.getStringExtra("categoryServiceId")!!
+        categoryServiceIcon = intent.getStringExtra("categoryServiceIcon")!!
+        categoryServiceName = intent.getStringExtra("categoryServiceName")!!
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -30,7 +36,11 @@ private lateinit var binding: ActivityMapsBinding
         mapFragment.getMapAsync(this)
 
         binding.buttonSelectLocation.setOnClickListener {
-            startActivity(Intent(this, ConfirmationActivity::class.java))
+            var intent = Intent(this, ConfirmationActivity::class.java)
+            intent.putExtra("categoryServiceId", categoryServiceId)
+            intent.putExtra("categoryServiceName",categoryServiceName)
+            intent.putExtra("categoryServiceIcon", categoryServiceIcon)
+            startActivity(intent)
         }
     }
 

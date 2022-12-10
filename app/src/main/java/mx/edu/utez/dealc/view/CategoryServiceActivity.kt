@@ -58,7 +58,10 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
     }
 
     override fun onItemClick(element: CategoryService, position: Int) {
-        startActivity(Intent(this, JobServiceActivity::class.java)
-            .putExtra("categoryServiceId", element.id))
+        var intent = Intent(this, JobServiceActivity::class.java)
+        intent.putExtra("categoryServiceId", element.id)
+        intent.putExtra("categoryServiceName", element.name)
+        intent.putExtra("categoryServiceIcon", element.icon)
+        startActivity(intent)
     }
 }
