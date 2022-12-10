@@ -137,17 +137,19 @@ class ServiceProviderRequestProvider : FirebaseProvider() {
         /**
          * Obtiene los mensajes del chat
          * */
-        suspend fun getMessagesFromChat(requestId: String): List<Message>? {
-            val response = CompletableDeferred<List<Message>?>()
+        suspend fun getMessagesFromChat(requestId: String): MutableList<Message>? {
+            val response = CompletableDeferred<MutableList<Message>?>()
 
             try {
                 getAllDataFromChildRealDB(COLLECTION_NAME_CHAT, "chat$requestId")
                     .addOnCompleteListener {
-                        response.complete(it.result.value as List<Message>?)
+                        response.complete(it.result.children.map { element ->
+                            Message.fromDocument(element)
+                        } as MutableList<Message>?)
                     }
             } catch (e: Exception) {
                 Log.e(TAG, e.message!!)
-                response.complete(listOf())
+                response.complete(mutableListOf())
             }
 
             return response.await()

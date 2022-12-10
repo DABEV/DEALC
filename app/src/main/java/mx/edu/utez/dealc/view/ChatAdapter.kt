@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import mx.edu.utez.dealc.R
+import mx.edu.utez.dealc.model.Message
 
 class ChatAdapter(context: Context): BaseAdapter() {
-    var messages = ArrayList<ChatModel>()
+    var messages = ArrayList<Message>()
     var ctx = context
 
-    fun add(data: ChatModel) {
+    fun add(data: Message) {
         messages.add(data)
         notifyDataSetChanged()
     }
@@ -33,8 +34,10 @@ class ChatAdapter(context: Context): BaseAdapter() {
         var holder = MessageViewHolder()
         var myView = view
         var messageInflater = LayoutInflater.from(ctx)
-        var message = messages.get(position).msg
-        if (messages.get(position).user.equals(ChatActivity.enviadoPor)) {
+        var message = messages.get(position).content
+        println("CHAT: adapter ${messages.get(position).content}")
+        println("CHAT: adapter ${messages.get(position).userId}")
+        if (messages.get(position).userId.equals(ChatActivity.enviadoPor)) {
             myView = messageInflater.inflate(R.layout.my_message, null)
             holder.bodyMessage = myView.findViewById(R.id.mensaje)
             holder.bodyMessage?.setText(message)
