@@ -48,8 +48,9 @@ class ServiceProviderRequestProvider : FirebaseProvider() {
             val response = CompletableDeferred<Boolean?>()
 
             try {
-                saveDataFire(ClientProvider.COLLECTION_NAME, serviceProviderRequest.toMap())
+                saveDataFire(COLLECTION_NAME, serviceProviderRequest.toMap())
                     .addOnCompleteListener {
+                        println("IdChido ${it.isSuccessful}")
                         response.complete(it.isSuccessful)
                     }
             } catch (e: Exception) {

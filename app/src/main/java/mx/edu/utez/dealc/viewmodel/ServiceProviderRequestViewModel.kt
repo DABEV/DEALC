@@ -53,6 +53,9 @@ class ServiceProviderRequestViewModel: ViewModel() {
     suspend fun addRequest(serviceProviderRequest: ServiceProviderRequest) {
         val response = ServiceProviderRequestProvider.addRequest(serviceProviderRequest)
 
+        println("IdChido ${serviceProviderRequest}")
+        println("IdChido ${response}")
+
         if (response!!) {
             responsesToSend["addRequest"]?.first?.postValue(response)
         } else {

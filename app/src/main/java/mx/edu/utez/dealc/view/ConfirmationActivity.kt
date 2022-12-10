@@ -37,20 +37,23 @@ class ConfirmationActivity : AppCompatActivity() {
 
         binding.btnRequire.setOnClickListener {
             if (!binding.editTextDetails.text.toString().isNullOrEmpty()){
-                var locationClient = Location(18.8611731, -99.21192)
-                val service = ServiceProviderRequest(
-                    null,
-                    binding.editTextDetails.text.toString(),
-                    categoryServiceId,
-                    "E23BtUJxow19URbNkaOF", 0, "",
-                    locationClient,
-                    shared.getId(),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null)
                 lifecycleScope.launch {
+                    // var locationClient = Location(18.8611731, -99.21192)
+                    val service = ServiceProviderRequest(
+                        null,
+                        binding.editTextDetails.text.toString(),
+                        categoryServiceId,
+                        "E23BtUJxow19URbNkaOF",
+                        0,
+                        "",
+                        null,
+                        shared.getId(),
+                        null,
+                        null,
+                        null,
+                        null,
+                        null)
+
                     viewModel.addRequest(service)
                 }
             }
@@ -61,13 +64,13 @@ class ConfirmationActivity : AppCompatActivity() {
 
     fun initObservers(){
 
-        viewModel.responsesToSend["getAllByCategory"]?.first?.observe(this){
+        viewModel.responsesToSend["addRequest"]?.first?.observe(this){
             Toast.makeText(applicationContext, "Todo correcto", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this, MenuActivity::class.java))
             finish()
         }
 
-        viewModel.responsesToSend["getAllByCategory"]?.second?.observe(this){
+        viewModel.responsesToSend["addRequest"]?.second?.observe(this){
             Toast.makeText(applicationContext, "Ocurrio un error", Toast.LENGTH_SHORT).show()
         }
 
