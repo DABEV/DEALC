@@ -3,6 +3,7 @@ package mx.edu.utez.dealc.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import mx.edu.utez.dealc.R
 import mx.edu.utez.dealc.databinding.ActivityMapsBinding
+import mx.edu.utez.dealc.utils.LocationLiveData
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -57,8 +59,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    fun initService() {
+        LocationLiveData(this).observe(this) {
+            Log.d("MapsLog", "Localización real: ${it.latitude}, ${it.longitude}")
+
+            val sydney = LatLng(-34.0, 151.0)
+
+            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(utez))
+        }
     }
 }
