@@ -12,12 +12,8 @@ import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.launch
 import mx.edu.utez.dealc.MainCoreApplication
 import mx.edu.utez.dealc.databinding.ActivityChatBinding
-import mx.edu.utez.dealc.model.ChatRequest
-import mx.edu.utez.dealc.model.Client
 import mx.edu.utez.dealc.model.Message
 import mx.edu.utez.dealc.viewmodel.ServiceProviderRequestViewModel
-import java.util.*
-import kotlin.math.log
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
@@ -75,8 +71,9 @@ class ChatActivity : AppCompatActivity() {
                     var username = snapshot.child("username").value.toString()
                     println("CHAT: onChildAdded enviado ${enviadoPor}")
                     println("CHAT: onChildAdded usuario ${userId}")
+                    println("CHAT: $enviadoPor $userId")
                     if (!userId.equals(enviadoPor)){
-                        addItem(Message(userId,content,username))
+                        addItem(Message(userId,username,content))
                     }
                 }
 
