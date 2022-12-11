@@ -1,4 +1,4 @@
-package mx.edu.utez.dealc.notification
+package mx.edu.utez.dealc.provider
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -13,25 +13,22 @@ import com.google.firebase.messaging.RemoteMessage
 import mx.edu.utez.dealc.R
 import mx.edu.utez.dealc.view.MenuActivity
 
-class NotiFirebaseMessagingService : FirebaseMessagingService() {
+class NotificationProvider : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
-        message.notification?.let {
-            crearNotificacion("Mensaje", message.data)
-            println(message.data)
+        if (message.data.isNotEmpty()) {
+            println("FB: Message ${message.data.toString()}")
         }
-    }
-
-    override fun onNewToken(token: String) {
-        super.onNewToken(token)
-        enviarToken(token)
+        message.notification?.let {
+            println("FB: Notificación ${message.notification.toString()}")
+            crearNotificacion("Mensaje", "")
+        }
     }
 
     fun enviarToken(token: String) {}
 
-    fun crearNotificacion(mensaje: String, data: Map<String, String>?) {
+    fun crearNotificacion(mensaje: String, requestId: String) {
         println("FB: Noti")
-        println(data)
         val intent = Intent(this, MenuActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT)
@@ -42,7 +39,7 @@ class NotiFirebaseMessagingService : FirebaseMessagingService() {
             .setContentTitle("UTEZ")
             .setContentText(mensaje)
             .setStyle(
-                NotificationCompat.BigTextStyle().bigText("")
+                NotificationCompat.BigTextStyle().bigText(requestId)
             )
             .setAutoCancel(true)
             .setSound(sonido)

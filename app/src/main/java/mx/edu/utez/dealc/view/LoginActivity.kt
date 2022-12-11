@@ -1,29 +1,38 @@
 package mx.edu.utez.dealc.view
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
+import android.media.RingtoneManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import mx.edu.utez.dealc.MainCoreApplication
+import mx.edu.utez.dealc.R
 import mx.edu.utez.dealc.databinding.ActivityLoginBinding
+import mx.edu.utez.dealc.notification.NotiFirebaseMessagingService
 import mx.edu.utez.dealc.viewmodel.FirebaseLoginViewModel
 
 class LoginActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityLoginBinding
     lateinit var viewModel: FirebaseLoginViewModel
-    private val shared = MainCoreApplication.shared
-
+    val shared = MainCoreApplication.shared
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         viewModel = ViewModelProvider(this).get(FirebaseLoginViewModel::class.java)
 
-        if(shared.isLogged()){
+        if (shared.isLogged()) {
             startActivity(Intent(this, MenuActivity::class.java))
             finish()
         }
@@ -47,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
                         "Es necesario el correo y/o contraseña para iniciar sesión",
                         Toast.LENGTH_SHORT
                     ).show()
+
                 }
             }
         }
@@ -61,6 +71,7 @@ class LoginActivity : AppCompatActivity() {
             shared.saveEmail(binding.editTextUsername.text.toString(), it!!.id!!)
             startActivity(Intent(applicationContext, SplashActivity::class.java))
         }
+
         viewModel.errorObj.observe(this) {
             Toast.makeText(
                 applicationContext,
@@ -69,4 +80,5 @@ class LoginActivity : AppCompatActivity() {
             ).show()
         }
     }
+
 }
