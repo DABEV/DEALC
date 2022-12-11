@@ -1,9 +1,14 @@
 package mx.edu.utez.dealc.view
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,6 +19,10 @@ import com.google.android.gms.maps.model.MarkerOptions
 import mx.edu.utez.dealc.R
 import mx.edu.utez.dealc.databinding.ActivityMapsBinding
 import mx.edu.utez.dealc.utils.LocationLiveData
+import java.io.IOException
+import java.lang.Exception
+import java.lang.RuntimeException
+import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -22,6 +31,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var  categoryServiceId: String
     lateinit var categoryServiceName: String
     lateinit var categoryServiceIcon: String
+    var selectedLOcationLat: Double = 0.0
+    var selectedLOcationLon: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +53,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             intent.putExtra("categoryServiceId", categoryServiceId)
             intent.putExtra("categoryServiceName",categoryServiceName)
             intent.putExtra("categoryServiceIcon", categoryServiceIcon)
+            intent.putExtra("selectedLOcationLat", selectedLOcationLat)
+            intent.putExtra("selectedLOcationLon", selectedLOcationLon)
             startActivity(intent)
         }
+
+        // Add a marker in your own location and move the camera
+        initService()
     }
 
     /**
@@ -58,18 +74,42 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        getMarkerLocation()
+        mMap.isMyLocationEnabled = true
     }
 
     fun initService() {
+        var zoom = true
+        var realDirection: LatLng
         LocationLiveData(this).observe(this) {
-            Log.d("MapsLog", "Localización real: ${it.latitude}, ${it.longitude}")
+            try { mMap.clear() }catch (e: Exception){ }
+            println("MapsLog Localización real: ${it.latitude}, ${it.longitude}")
+            realDirection = LatLng(it.latitude, it.longitude)
+            if (zoom){
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(realDirection))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(realDirection, 13f))
+            }
+            zoom = false
+        }
+    }
 
-            val sydney = LatLng(-34.0, 151.0)
-
-            mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-            //mMap.moveCamera(CameraUpdateFactory.newLatLng(utez))
+    fun getMarkerLocation() {
+        mMap.setOnCameraIdleListener {
+            var lat = mMap.cameraPosition.target.latitude
+            var lon = mMap.cameraPosition.target.longitude
+            println("MapsLog marker $lat $lon")
+            selectedLOcationLat = lat
+            selectedLOcationLon = lon
         }
     }
 }
