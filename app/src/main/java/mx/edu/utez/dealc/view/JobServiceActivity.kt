@@ -8,32 +8,33 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
-import mx.edu.utez.dealc.adapter.CategoryServiceAdapter
 import mx.edu.utez.dealc.adapter.JobServiceAdapter
 import mx.edu.utez.dealc.databinding.ActivityJobServiceBinding
 import mx.edu.utez.dealc.model.Job
+import mx.edu.utez.dealc.model.ServiceProviderRequest
 import mx.edu.utez.dealc.viewmodel.JobViewModel
 
 class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     lateinit var binding: ActivityJobServiceBinding
     lateinit var viewModel: JobViewModel
     lateinit var adapter: JobServiceAdapter
-    lateinit var  categoryServiceId: String
-    lateinit var categoryServiceName: String
-    lateinit var categoryServiceIcon: String
+    lateinit var serviceProviderRequest: ServiceProviderRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityJobServiceBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
         viewModel = ViewModelProvider(this).get(JobViewModel::class.java)
 
-        categoryServiceId = intent.getStringExtra("categoryServiceId")!!
-        categoryServiceIcon = intent.getStringExtra("categoryServiceIcon")!!
-        categoryServiceName = intent.getStringExtra("categoryServiceName")!!
+        val ser = intent.getSerializableExtra("serviceProviderRequest")
+
+        println("Este es mi serializable $ser")
+
+        serviceProviderRequest = ServiceProviderRequest.fromMap((intent.getSerializableExtra("serviceProviderRequest") as HashMap<String, Any?>).toMap())
 
         lifecycleScope.launch {
-            viewModel.getAllByCategory(intent.getStringExtra("categoryServiceId")!!)
+            viewModel.getAllByCategory(serviceProviderRequest.categoryServiceId)
         }
 
         initObservers()
@@ -62,10 +63,13 @@ class JobServiceActivity : AppCompatActivity(), JobServiceAdapter.Eventos {
     }
 
     override fun onItemClick(element: Job, position: Int) {
-        var intent = Intent(applicationContext, MapsActivity::class.java)
-        intent.putExtra("categoryServiceId", categoryServiceId)
-        intent.putExtra("categoryServiceName",categoryServiceName)
-        intent.putExtra("categoryServiceIcon", categoryServiceIcon)
+
+        serviceProviderRequest.jobId = element.id
+        serviceProviderRequest.job = element.toMap()
+
+        println("2.- Camino service $serviceProviderRequest")
+
+        var intent = Intent(applicationContext, MapsActivity::class.java).putExtra("serviceProviderRequest", HashMap(serviceProviderRequest.toMap()))
         startActivity(intent)
         finish()
     }

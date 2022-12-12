@@ -3,11 +3,8 @@ package mx.edu.utez.dealc.view
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -15,22 +12,18 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import mx.edu.utez.dealc.R
 import mx.edu.utez.dealc.databinding.ActivityMapsBinding
+import mx.edu.utez.dealc.model.Location
+import mx.edu.utez.dealc.model.ServiceProviderRequest
 import mx.edu.utez.dealc.utils.LocationLiveData
-import java.io.IOException
 import java.lang.Exception
-import java.lang.RuntimeException
-import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    lateinit var  categoryServiceId: String
-    lateinit var categoryServiceName: String
-    lateinit var categoryServiceIcon: String
+    lateinit var serviceProviderRequest: ServiceProviderRequest
     var selectedLOcationLat: Double = 0.0
     var selectedLOcationLon: Double = 0.0
 
@@ -39,9 +32,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        categoryServiceId = intent.getStringExtra("categoryServiceId")!!
-        categoryServiceIcon = intent.getStringExtra("categoryServiceIcon")!!
-        categoryServiceName = intent.getStringExtra("categoryServiceName")!!
+        serviceProviderRequest = ServiceProviderRequest.fromMap((intent.getSerializableExtra("serviceProviderRequest") as HashMap<String, Any?>).toMap())
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -49,12 +40,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.buttonSelectLocation.setOnClickListener {
-            var intent = Intent(this, ConfirmationActivity::class.java)
-            intent.putExtra("categoryServiceId", categoryServiceId)
-            intent.putExtra("categoryServiceName",categoryServiceName)
-            intent.putExtra("categoryServiceIcon", categoryServiceIcon)
-            intent.putExtra("selectedLOcationLat", selectedLOcationLat)
-            intent.putExtra("selectedLOcationLon", selectedLOcationLon)
+
+            serviceProviderRequest.locationClient = Location(selectedLOcationLat, selectedLOcationLon).toMap()
+
+            println("3.- Camino service $serviceProviderRequest")
+
+            var intent = Intent(this, ConfirmationActivity::class.java).putExtra("serviceProviderRequest", HashMap(serviceProviderRequest.toMap()))
             startActivity(intent)
         }
 
