@@ -56,7 +56,7 @@ class DetailServiceActivity : AppCompatActivity() {
         }
 
         binding.buttonCancelService.setOnClickListener {
-            updateStatusMap("Finalizada", "E23BtUJxow19URbNkaOF")
+            updateStatusMap("Cancelado", "s9QpNDaHjjqJsMJF2wh9")
         }
     }
 
