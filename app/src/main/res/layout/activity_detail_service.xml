@@ -34,13 +34,6 @@
                 android:orientation="vertical"
                 android:gravity="center"
                 android:padding="30dp">
-                <ImageView
-                    android:id="@+id/imageViewChat"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/ic_chat"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -52,34 +45,65 @@
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:text="Nombre del servicio"
                     />
                 <TextView
-                    android:id="@+id/textViewName"
+                    android:id="@+id/textViewNameService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Nombre"
+                    android:textColor="#4A4A4A"
+                    android:text="Nombre del servicio"
                     />
                 <TextView
-                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:textSize="14sp"
                     android:layout_marginTop="10dp"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
-                    android:text="Detalles"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:text="Estatus del servicio"
                     />
                 <TextView
-                    android:gravity="center"
-                    android:id="@+id/textViewDetails"
+                    android:id="@+id/textViewStatus"
                     android:layout_width="match_parent"
                     android:layout_marginBottom="10dp"
                     android:layout_height="wrap_content"
-                    android:text="Nombre del servicio"
+                    android:textColor="#4A4A4A"
+                    android:text="Estatus"
                     />
+                <LinearLayout
+                    android:id="@+id/layoutProviderDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/purple"
+                        android:layout_height="2px"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@color/dark_green"
+                        android:text="Datos del prestador de servicios" />
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:text="Nombre"
+                        />
+                    <TextView
+                        android:id="@+id/textViewNameProvider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#4A4A4A"
+                        android:text="Nombre del prestador"
+                        />
+                </LinearLayout>
                 <Button
                     android:id="@+id/buttonSeeWay"
                     android:layout_width="match_parent"

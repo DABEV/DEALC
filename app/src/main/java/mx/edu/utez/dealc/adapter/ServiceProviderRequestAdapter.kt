@@ -3,6 +3,7 @@ package mx.edu.utez.dealc.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,7 +36,17 @@ class ServiceProviderRequestAdapter(
 
     inner class ViewHolder (private val binding: ItemServiceHistoryBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (element: ServiceProviderRequest, position: Int) {
+            binding.imageViewStars.isVisible = false
+            binding.textViewStars.isVisible = false
             binding.textViewShortDescription.text = element.shortDescription
+            binding.textViewStatus.text = element.serviceStatus!!.get("name").toString()
+            binding.textViewStars.text = element.stars.toString()
+
+            if(element.serviceStatus?.get("name")!!.equals("Finalizada")){
+                binding.imageViewChat.isVisible = false
+                binding.imageViewStars.isVisible = true
+                binding.textViewStars.isVisible = true
+            }
 
             binding.linearLayoutInfo.setOnClickListener {
                 this@ServiceProviderRequestAdapter.eventos.onItemClick(element, position)
