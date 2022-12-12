@@ -13,6 +13,7 @@ import mx.edu.utez.dealc.model.ServiceProviderRequest
 class DetailServiceActivity : AppCompatActivity() {
     lateinit var binding : ActivityDetailServiceBinding
     lateinit var serviceId: String
+    lateinit var statusId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityDetailServiceBinding.inflate(layoutInflater)
@@ -20,6 +21,7 @@ class DetailServiceActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         serviceId = intent.getStringExtra("serviceId")!!
+        statusId= intent.getStringExtra("status")!!
         binding.layoutProviderDetails.isVisible = false
 
         val data = FirebaseFirestore
@@ -57,6 +59,15 @@ class DetailServiceActivity : AppCompatActivity() {
 
         binding.buttonCancelService.setOnClickListener {
             updateStatusMap("Cancelado", "s9QpNDaHjjqJsMJF2wh9")
+        }
+        binding.buttonQualificationService.setOnClickListener {
+            if (statusId.equals("E23BtUJxow19URbNkaOF")) {
+                var intent = Intent(this, RatingBarActivity::class.java)
+                intent.putExtra("serviceId", serviceId)
+                startActivity(intent)
+            }else{
+                Toast.makeText(this, "Error no puedes evaluar un servicio que esta en proceso", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

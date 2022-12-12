@@ -128,6 +128,18 @@
                     app:strokeWidth="3dp"
                     style="?attr/materialButtonOutlinedStyle"
                     app:cornerRadius="100dp"/>
+                <Button
+                    android:id="@+id/buttonQualificationService"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="CALIFICAR SERVICIO"
+                    android:layout_marginTop="10dp"
+                    android:textStyle="bold"
+                    app:strokeColor="#2196F3"
+                    android:textColor="#2196F3"
+                    app:strokeWidth="3dp"
+                    style="?attr/materialButtonOutlinedStyle"
+                    app:cornerRadius="100dp"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
