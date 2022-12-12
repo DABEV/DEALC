@@ -63,7 +63,7 @@ class CategoryServiceActivity : AppCompatActivity(), CategoryServiceAdapter.Even
         val serviceProviderRequest = ServiceProviderRequest.fromMap(mapOf(
             "categoryServiceId" to element.id,
             "categoryService" to element.toMap(),
-            "serviceStatusId" to "E23BtUJxow19URbNkaOF",
+            "serviceStatusId" to "SmiarENn0AyE8omu0T5G",
             "serviceStatus" to mapOf<String, Any>( "name" to "Disponible"),
             "stars" to 0L,
             "serviceProviderComments" to "",
