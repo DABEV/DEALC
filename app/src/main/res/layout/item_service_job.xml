@@ -40,12 +40,12 @@
             android:layout_weight="1"
             >
             <TextView
-                android:id="@+id/textViewCategoryService"
+                android:id="@+id/textViewJob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                tools:text="Nombre de la categoria"
+                tools:text="Nombre del trabajo"
                 />
         </LinearLayout>
     </LinearLayout>
