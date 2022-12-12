@@ -37,7 +37,7 @@ class DetailServiceActivity : AppCompatActivity() {
                 binding.textViewStatus.text = it["serviceStatus.name"].toString()
                 println("DETAIL: statusId: ${it["serviceStatusId"]}")
                 if (it["serviceStatusId"] != "SmiarENn0AyE8omu0T5G"
-                    && it["serviceStatusId"] != null && it["providerId"] != null){
+                    && it["serviceStatusId"] != null && it["provider"] != null){
                     val dataProvider = FirebaseFirestore
                         .getInstance()
                         .collection("Provider")
