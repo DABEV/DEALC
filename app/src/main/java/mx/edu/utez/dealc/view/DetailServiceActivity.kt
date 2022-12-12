@@ -21,6 +21,7 @@ class DetailServiceActivity : AppCompatActivity() {
 
         serviceId = intent.getStringExtra("serviceId")!!
         binding.layoutProviderDetails.isVisible = false
+        binding.buttonSeeWay.isVisible = false
 
         val data = FirebaseFirestore
             .getInstance()
@@ -31,14 +32,16 @@ class DetailServiceActivity : AppCompatActivity() {
             if(it["clientId"] != null){
                 binding.textViewNameService.text = it["shortDescription"].toString()
                 binding.textViewStatus.text = it["serviceStatus.name"].toString()
-
-                if (it["providerId"] != null){
+                println("DETAIL: statusId: ${it["serviceStatusId"]}")
+                if (it["serviceStatusId"] != "SmiarENn0AyE8omu0T5G"
+                    && it["serviceStatusId"] != null && it["providerId"] != null){
                     val dataProvider = FirebaseFirestore
                         .getInstance()
                         .collection("Provider")
                         .document(it["providerId"]!!.toString())
                     dataProvider.get().addOnSuccessListener {
                         binding.layoutProviderDetails.isVisible = true
+                        binding.buttonSeeWay.isVisible = true
                         var nombreCompleto = "${it["name"].toString()} ${it["lastName"].toString()}"
                         binding.textViewNameProvider.text = nombreCompleto
                     }
@@ -52,7 +55,9 @@ class DetailServiceActivity : AppCompatActivity() {
 
 
         binding.buttonSeeWay.setOnClickListener {
-            startActivity(Intent(this, MapsActivity::class.java))
+            var intent = Intent(this, RouteServiceActivity::class.java)
+            intent.putExtra("serviceId", serviceId)
+            startActivity(intent)
         }
 
         binding.buttonCancelService.setOnClickListener {

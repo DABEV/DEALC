@@ -52,6 +52,10 @@ class ServiceProviderRequestAdapter(
                 binding.imageViewChat.isVisible = false
             }
 
+            if(element.serviceStatus?.get("name")!!.equals("Disponible")){
+                binding.imageViewChat.isVisible = false
+            }
+
             binding.linearLayoutInfo.setOnClickListener {
                 this@ServiceProviderRequestAdapter.eventos.onItemClick(element, position)
             }
