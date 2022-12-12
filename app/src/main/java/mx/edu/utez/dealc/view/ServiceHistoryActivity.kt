@@ -64,6 +64,7 @@ class ServiceHistoryActivity : AppCompatActivity(), ServiceProviderRequestAdapte
     override fun onItemClick(element: ServiceProviderRequest, position: Int) {
         var intent = Intent(this, DetailServiceActivity::class.java)
         intent.putExtra("serviceId",element.id)
+        intent.putExtra("status",element.serviceStatusId)
         startActivity(intent)
     }
 
