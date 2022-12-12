@@ -48,6 +48,10 @@ class ServiceProviderRequestAdapter(
                 binding.textViewStars.isVisible = true
             }
 
+            if(element.serviceStatus?.get("name")!!.equals("Cancelado")){
+                binding.imageViewChat.isVisible = false
+            }
+
             binding.linearLayoutInfo.setOnClickListener {
                 this@ServiceProviderRequestAdapter.eventos.onItemClick(element, position)
             }
