@@ -65,6 +65,8 @@ class RatingBarActivity : AppCompatActivity() {
                         "stars" to stars
                     )
                 ).addOnSuccessListener {
+                    startActivity(Intent(this,MenuActivity::class.java))
+                    finish()
                     Toast.makeText(this, "Gracias por usar nuestros servicio", Toast.LENGTH_SHORT)
                         .show()
                 }.addOnFailureListener {

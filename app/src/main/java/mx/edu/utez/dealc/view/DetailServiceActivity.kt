@@ -24,6 +24,7 @@ class DetailServiceActivity : AppCompatActivity() {
         statusId= intent.getStringExtra("status")!!
         binding.layoutProviderDetails.isVisible = false
         binding.buttonSeeWay.isVisible = false
+        binding.buttonQualificationService.isVisible = false
 
         val data = FirebaseFirestore
             .getInstance()
@@ -48,6 +49,10 @@ class DetailServiceActivity : AppCompatActivity() {
                         binding.textViewNameProvider.text = nombreCompleto
                     }
                 }
+
+                if (statusId.equals("E23BtUJxow19URbNkaOF") && it["stars"].toString().toInt() == 0) {
+                    binding.buttonQualificationService.isVisible = true
+                }
             }else{
                 Toast.makeText(this, "Dato inexistente", Toast.LENGTH_SHORT).show()
             }
@@ -66,13 +71,9 @@ class DetailServiceActivity : AppCompatActivity() {
             updateStatusMap("Cancelado", "s9QpNDaHjjqJsMJF2wh9")
         }
         binding.buttonQualificationService.setOnClickListener {
-            if (statusId.equals("E23BtUJxow19URbNkaOF")) {
-                var intent = Intent(this, RatingBarActivity::class.java)
-                intent.putExtra("serviceId", serviceId)
-                startActivity(intent)
-            }else{
-                Toast.makeText(this, "Error no puedes evaluar un servicio que esta en proceso", Toast.LENGTH_SHORT).show()
-            }
+            var intent = Intent(this, RatingBarActivity::class.java)
+            intent.putExtra("serviceId", serviceId)
+            startActivity(intent)
         }
     }
 

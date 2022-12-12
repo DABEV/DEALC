@@ -101,7 +101,6 @@ class RouteServiceActivity : AppCompatActivity(), OnMapReadyCallback {
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(provider, 15f))
 
                     }
-                    polylineOptions.add(cliente)
                     polylineOptions.width(10f)
                     polylineOptions.color(ContextCompat.getColor(this, R.color.dark_green))
 
