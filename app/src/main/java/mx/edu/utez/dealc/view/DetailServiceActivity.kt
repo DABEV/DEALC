@@ -51,6 +51,7 @@ class DetailServiceActivity : AppCompatActivity() {
                 }
 
                 if (statusId.equals("E23BtUJxow19URbNkaOF") && it["stars"].toString().toInt() == 0) {
+                    binding.buttonCancelService.isVisible = false
                     binding.buttonQualificationService.isVisible = true
                 }
             }else{
