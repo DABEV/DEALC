@@ -44,6 +44,10 @@ class MenuActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnAbout.setOnClickListener {
+            startActivity(Intent(this, AboutActivity::class.java))
+        }
+
         initObservers()
     }
 
