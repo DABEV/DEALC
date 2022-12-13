@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import mx.edu.utez.dealc.databinding.ActivityDetailServiceBinding
-import mx.edu.utez.dealc.model.ServiceProviderRequest
 
 class DetailServiceActivity : AppCompatActivity() {
     lateinit var binding : ActivityDetailServiceBinding
