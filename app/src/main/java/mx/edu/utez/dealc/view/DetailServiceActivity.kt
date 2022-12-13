@@ -72,7 +72,7 @@ class DetailServiceActivity : AppCompatActivity() {
                     binding.buttonCancelService.isVisible = false
                     binding.layoutProviderDetails.isVisible = true
                     binding.buttonSeeWay.isVisible = false
-                    binding.buttonQualificationService.isVisible = true
+                    binding.buttonQualificationService.isVisible = false
                 }
 
 
