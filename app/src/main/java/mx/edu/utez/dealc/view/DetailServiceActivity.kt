@@ -22,9 +22,10 @@ class DetailServiceActivity : AppCompatActivity() {
 
         serviceId = intent.getStringExtra("serviceId")!!
         statusId= intent.getStringExtra("status")!!
+        binding.buttonCancelService.isVisible = false
         binding.layoutProviderDetails.isVisible = false
-        binding.buttonSeeWay.isVisible = false
-        binding.buttonQualificationService.isVisible = false
+        binding.buttonSeeWay.isVisible= false
+        binding.buttonQualificationService.isVisible=false
 
         val data = FirebaseFirestore
             .getInstance()
@@ -36,8 +37,7 @@ class DetailServiceActivity : AppCompatActivity() {
                 binding.textViewNameService.text = it["shortDescription"].toString()
                 binding.textViewStatus.text = it["serviceStatus.name"].toString()
                 println("DETAIL: statusId: ${it["serviceStatusId"]}")
-                if (it["serviceStatusId"] != "SmiarENn0AyE8omu0T5G"
-                    && it["serviceStatusId"] != null && it["provider"] != null){
+                if (it["serviceStatusId"] == "EEIrWAI245ucSQ1F7aBc" || it["serviceStatusId"] == ("nYUnZOvHPJSWGqPLFEei")){
                     val dataProvider = FirebaseFirestore
                         .getInstance()
                         .collection("Provider")
@@ -45,13 +45,38 @@ class DetailServiceActivity : AppCompatActivity() {
                     dataProvider.get().addOnSuccessListener {
                         binding.layoutProviderDetails.isVisible = true
                         binding.buttonSeeWay.isVisible = true
+                        binding.buttonCancelService.isVisible = true
                         var nombreCompleto = "${it["name"].toString()} ${it["lastName"].toString()}"
                         binding.textViewNameProvider.text = nombreCompleto
                     }
                 }
 
-                if (statusId.equals("E23BtUJxow19URbNkaOF") && it["stars"].toString().toInt() == 0) {
+                if (it["serviceStatusId"] == "SmiarENn0AyE8omu0T5G") {
+                    // disponible
+                    binding.buttonCancelService.isVisible = true
+                    binding.layoutProviderDetails.isVisible = false
+                    binding.buttonSeeWay.isVisible = false
+                    binding.buttonQualificationService.isVisible = false
+                }
+
+                if (it["serviceStatusId"] == "s9QpNDaHjjqJsMJF2wh9") {
+                    // cancelado
                     binding.buttonCancelService.isVisible = false
+                    binding.layoutProviderDetails.isVisible = false
+                    binding.buttonSeeWay.isVisible= false
+                    binding.buttonQualificationService.isVisible = false
+                }
+
+                if (it["serviceStatusId"] == "E23BtUJxow19URbNkaOF") {
+                    // finalizado
+                    binding.buttonCancelService.isVisible = false
+                    binding.layoutProviderDetails.isVisible = true
+                    binding.buttonSeeWay.isVisible = false
+                    binding.buttonQualificationService.isVisible = true
+                }
+
+
+                if ( it["stars"].toString().toInt() == 0 && it["serviceStatusId"] == "E23BtUJxow19URbNkaOF") {
                     binding.buttonQualificationService.isVisible = true
                 }
             }else{
