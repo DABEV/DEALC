@@ -14,6 +14,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import mx.edu.utez.dealc.MainCoreApplication
@@ -30,6 +33,7 @@ class RouteServiceActivity : AppCompatActivity(), OnMapReadyCallback {
     private var providerLon: Double = 0.0
     private var clientLat: Double = 0.0
     private var clientLon: Double = 0.0
+    var puntosProvider : MutableList<LatLng> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,62 @@ class RouteServiceActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         getClientLocation()
         println("ROUTE: sevice $serviceId")
+
+        FirebaseDatabase.getInstance()
+            .getReference("LocationRequest")
+            .child("location${serviceId}")
+            .child("locationProvider")
+            .limitToLast(1)
+            .addChildEventListener(object: ChildEventListener {
+                override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                    try { mMap.clear() } catch (e: java.lang.Exception){ }
+
+                    puntosProvider.add(LatLng(
+                        snapshot.child("latitude").value.toString().toDouble(),
+                        snapshot.child("longitude").value.toString().toDouble()
+                    ))
+
+                    println("2.- Estos son los puntos del proveedor $puntosProvider")
+                    var polylineOptions = PolylineOptions()
+                    var cliente = LatLng(clientLat, clientLon)
+
+                    polylineOptions.addAll(puntosProvider)
+
+                    if (puntosProvider.size > 0) {
+                        mMap.addMarker(MarkerOptions().position(puntosProvider[puntosProvider.size - 1]).title("Prestador de Servicio"))
+                    }
+                    mMap.addMarker(MarkerOptions().position(cliente).title("Tú"))
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(cliente))
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cliente, 15f))
+
+                    polylineOptions.width(10f)
+                    polylineOptions.color(ContextCompat.getColor(applicationContext, R.color.dark_green))
+
+                    var polyline = mMap.addPolyline(polylineOptions)
+                    // Dale un estilo a la linea
+                    var patron = listOf(
+                        Dot(), Gap(10f), Dash(30f), Gap(10f)
+                    )
+                    polyline.pattern = patron
+                }
+
+                override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onChildRemoved(snapshot: DataSnapshot) {
+
+                }
+
+                override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+
+                }
+
+            })
     }
 
     /**
@@ -74,43 +134,50 @@ class RouteServiceActivity : AppCompatActivity(), OnMapReadyCallback {
     fun getProviderRoute() {
         var cliente = LatLng(clientLat,clientLon)
         println("ROUTE: clientexist $clientLat $clientLon")
-        var polylineOptions = PolylineOptions()
         FirebaseDatabase.getInstance()
             .getReference("LocationRequest")
             .child("location${serviceId}")
-            .child("pointsProvider")
+            .child("locationProvider")
             .get()
             .addOnSuccessListener {
                 println("ROUTE: provider success")
                 println("ROUTE: providerxist ${it.exists()}")
-                if(it.exists()){
-                    for (item in it.children){
-                        providerLat = item.child("latitude").value.toString().toDouble()
-                        providerLon = item.child("longitude").value.toString().toDouble()
+                try {
+                    puntosProvider = it.children.map { itChildren ->
+                        LatLng(
+                            itChildren.child("latitude").value.toString().toDouble(),
+                            itChildren.child("longitude").value.toString().toDouble()
+                        )
+                    }.toMutableList()
 
-                        var provider = LatLng(providerLat, providerLon)
-                        polylineOptions.add(provider)
-
-                        mMap.addCircle(CircleOptions()
-                            .center(provider)
-                            .radius(20.0)
-                            .strokeColor(Color.RED)
-                            .fillColor(Color.RED))
-
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(provider))
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(provider, 15f))
-
-                    }
-                    polylineOptions.width(10f)
-                    polylineOptions.color(ContextCompat.getColor(this, R.color.dark_green))
-
-                    var polyline = mMap.addPolyline(polylineOptions)
-                    // Dale un estilo a la linea
-                    var patron = listOf(
-                        Dot(), Gap(10f), Dash(30f), Gap(10f)
-                    )
-                    polyline.pattern = patron
+                    println("Todo salio bien :)")
+                } catch (e: Exception) {
+                    puntosProvider = mutableListOf()
+                    println("Hubo un error :( ${e.message!!}")
                 }
+
+                var polylineOptions = PolylineOptions()
+
+                polylineOptions.addAll(puntosProvider)
+
+                if (puntosProvider.size > 0) {
+                    mMap.addMarker(MarkerOptions().position(puntosProvider[puntosProvider.size - 1]).title("Prestador de Servicio"))
+                }
+                mMap.addMarker(MarkerOptions().position(LatLng(clientLat, clientLon)).title("Tú"))
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(cliente))
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(cliente, 15f))
+
+                polylineOptions.width(10f)
+                polylineOptions.color(ContextCompat.getColor(this, R.color.dark_green))
+
+                var polyline = mMap.addPolyline(polylineOptions)
+                // Dale un estilo a la linea
+                var patron = listOf(
+                    Dot(), Gap(10f), Dash(30f), Gap(10f)
+                )
+                polyline.pattern = patron
+
+                println("1.- Estos son los puntos del proveedor $puntosProvider")
             }
             .addOnFailureListener{
                 Toast.makeText(this, "No se puedo obtener la ruta", Toast.LENGTH_SHORT).show()
@@ -130,7 +197,7 @@ class RouteServiceActivity : AppCompatActivity(), OnMapReadyCallback {
 
                     println("ROUTE: client ${clientLat} ${clientLon}")
                     var clienteLocation = LatLng(clientLat,clientLon)
-                    mMap.addMarker(MarkerOptions().position(clienteLocation).title("Destino"))
+                    mMap.addMarker(MarkerOptions().position(clienteLocation).title("Tú"))
                     getProviderRoute()
                 }
             }
